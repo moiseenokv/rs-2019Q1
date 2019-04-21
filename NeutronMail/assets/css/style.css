@@ -772,6 +772,10 @@ footer .container {
     flex-direction: row;
 }
 
+.container.lst {
+    flex-direction: column;
+}
+
 .footer-container {
     display: flex;
     width: 86%;
@@ -814,6 +818,10 @@ footer .container {
     color: #5c5c5c;
     font-weight: 700;
     letter-spacing: 0.14px;
+}
+
+.contacts p>a:last-child {
+    text-decoration: underline
 }
 
 .contacts p>a:hover {
@@ -874,6 +882,11 @@ footer .container {
     font-weight: 400;
 }
 
+.menu a:hover {
+    color: #603870;
+    text-decoration: underline;
+}
+
 .menu li:after {
     content: '•';
 }
@@ -881,6 +894,17 @@ footer .container {
 .socials {
     list-style: none;
     display: flex;
+    margin: 73px 0 6px 0;
+}
+
+.socials li:not(:first-child)::before {
+    content: '/';
+    padding: 0 10px 0 11px;
+    text-decoration: none !important;
+}
+
+.socials li {
+    margin: 0 2px;
 }
 
 .socials a {
