@@ -91,6 +91,51 @@ aside h2 {
     background-repeat: no-repeat;
 }
 
+.palette {
+    width: 95%;
+    margin: 0px auto;
+    display: table;
+    border-top: 1px solid #eee;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.palette ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    margin: 0 auto 37px auto;
+}
+
+.palette li {
+    width: 30%;
+}
+
+.palette p {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.current:before {
+    content: "";
+    width: 32px;
+    height: 32px;
+    display: block;
+    border: 1px solid #000;
+    background: #789212;
+    margin: 0 0 -26px -39px;
+}
+
+.prev:before {
+    content: "";
+    width: 32px;
+    height: 32px;
+    display: block;
+    border: 1px solid #000;
+    background: #cfcfcf;
+    margin: 0 0 -26px -39px;
+}
+
 section {
     width: 84%;
     display: flex;
@@ -130,6 +175,7 @@ section {
     flex-direction: row;
     width: 110px;
     height: 110px;
+    margin: 0 auto;
 }
 
 .select-color>div {
@@ -140,11 +186,13 @@ section {
     border: 1px solid #000;
 }
 
+
+/*
 .select-color.disabled,
 .select-color.disabled>div {
     opacity: 0.25;
     cursor: not-allowed;
-}
+} */
 
 .select-color>div:nth-child(1) {
     background: #dd0000;
