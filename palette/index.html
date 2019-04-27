@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,57 @@
     <title>Codejam Palette Task</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
-    <header></header>
     <main>
-        <aside></aside>
+        <aside>
+            <h2>Tool Panel</h2>
+            <div class="tools">
+                <ul>
+                    <li><button data-action="paint">Paint Bucket</button></li>
+                    <li><button data-action="choose-color">Choose Color</button></li>
+                    <li><button data-action="move">Move</button></li>
+                    <li><button data-action="transform">Transform</button></li>
+                </ul>
+            </div>
+            <div class="palette">
+                <ul>
+                    <li>
+                        <p>Current color</p>
+                    </li>
+                    <li>
+                        <p>Prev color</p>
+                    </li>
+                </ul>
+                <div class="select-color disabled">
+                    <div title="red" data-color="dd0000"></div>
+                    <div title="orange" data-color="fe6230"></div>
+                    <div title="yellow" data-color="fef600"></div>
+                    <div title="green" data-color="00bb00"></div>
+                    <div title="indigo" data-color="009bfe"></div>
+                    <div title="blue" data-color="000083"></div>
+                    <div title="violet" data-color="30009b"></div>
+                    <div title="white" data-color="ffffff"></div>
+                    <div title="black" data-color="000000"></div>
+                </div>
+            </div>
+        </aside>
         <section>
-            <h1>Codejam - Palette </h1>
+            <h1>Codejam - Palette</h1>
+            <div class="canvas">
+                <div figure="1"></div>
+                <div figure="2"></div>
+                <div figure="3"></div>
+                <div figure="4"></div>
+                <div figure="5"></div>
+                <div figure="6"></div>
+                <div class="circle" figure="7"></div>
+                <div figure="8"></div>
+                <div figure="9"></div>
+            </div>
         </section>
     </main>
-    <footer></footer>
     <script src="./assets/js/script.js" type="text/javascript"></script>
 </body>
+
 </html>

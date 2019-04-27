@@ -1,0 +1,183 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    width: 16%;
+    border-right: 4px solid #eee;
+}
+
+aside h2 {
+    margin: 18px 0;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.tools {
+    width: 95%;
+    margin: 0px auto;
+    display: table;
+    border-top: 1px solid #eee;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.tools ul {
+    margin: 0 auto;
+    display: table;
+    list-style: none;
+}
+
+.tools li {
+    width: 180px;
+    margin: 6px 0;
+}
+
+.tools button {
+    border: none;
+    padding: 12px 0 12px 36px;
+    width: 150px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tools li button:before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0px 0 -16px -26px;
+}
+
+.tools li:nth-child(1) button:before {
+    background: url('../img/fill.png');
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tools li:nth-child(2) button:before {
+    background: url('../img/picker.png');
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tools li:nth-child(3) button:before {
+    background: url('../img/move.png');
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tools li:nth-child(4) button:before {
+    background: url('../img/transform.png');
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+section {
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(238, 238, 238, 0.2);
+    height: 100vh;
+}
+
+.canvas {
+    display: flex;
+    width: 606px;
+    border: 1px solid #000;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas>div {
+    width: 200px;
+    height: 200px;
+    background: #dddddd;
+    border: 1px solid #333333;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.select-color {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 110px;
+    height: 110px;
+}
+
+.select-color>div {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+
+.select-color.disabled,
+.select-color.disabled>div {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.select-color>div:nth-child(1) {
+    background: #dd0000;
+}
+
+.select-color>div:nth-child(2) {
+    background: #fe6230;
+}
+
+.select-color>div:nth-child(3) {
+    background: #fef600;
+}
+
+.select-color>div:nth-child(4) {
+    background: #00bb00;
+}
+
+.select-color>div:nth-child(5) {
+    background: #009bfe;
+}
+
+.select-color>div:nth-child(6) {
+    background: #000083;
+}
+
+.select-color>div:nth-child(7) {
+    background: #30009b
+}
+
+.select-color>div:nth-child(8) {
+    background: #ffffff
+}
+
+.select-color>div:nth-child(9) {
+    background: #000000
+}
