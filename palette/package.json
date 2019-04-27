@@ -1,0 +1,35 @@
+{
+    "name": "eslint-prettier-airbnb",
+    "version": "1.0.0",
+    "description": "",
+    "main": "script.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "http-server ./",
+        "lint":"eslint ./assets/js/script.js",
+        "prettier":"prettier --write ./assets/js/script.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/moiseenokv/eslint-prettier-airbnb.git"
+    },
+    "keywords": [
+        "bootstrap",
+        "rss"
+    ],
+    "author": "moiseenokv",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/moiseenokv/eslint-prettier-airbnb/issues"
+    },
+    "homepage": "https://github.com/moiseenokv/eslint-prettier-airbnb#readme",
+    "devDependencies": {
+        "eslint": "^5.3.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-jsx-a11y": "^6.1.1",
+        "eslint-plugin-react": "^7.11.0",
+        "http-server": "^0.11.1",
+        "prettier": "1.17.0"
+    }
+}
