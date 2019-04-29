@@ -3,6 +3,22 @@
     padding: 0;
 }
 
+body.buck {
+    cursor: url('../img/fill.png'), auto;
+}
+
+body.move {
+    cursor: url('../img/move.png'), auto;
+}
+
+body.picker {
+    cursor: url('../img/picker.png'), auto;
+}
+
+body.transform {
+    cursor: url('../img/transform.png'), auto;
+}
+
 main {
     display: flex;
     width: 100%;
@@ -43,16 +59,21 @@ aside h2 {
 }
 
 .tools li {
-    width: 180px;
     margin: 6px 0;
 }
 
 .tools button {
-    border: none;
+    border: 1px solid transparent;
     padding: 12px 0 12px 36px;
     width: 150px;
     text-align: left;
     cursor: pointer;
+}
+
+.tools button:hover,
+button.active {
+    font-weight: bold;
+    border: 1px solid #000;
 }
 
 .tools li button:before {
@@ -112,12 +133,11 @@ aside h2 {
 }
 
 .palette p {
-    width: 40%;
+    width: 80%;
     margin: 0 auto;
 }
 
-.current:before {
-    content: "";
+.current span {
     width: 32px;
     height: 32px;
     display: block;
@@ -126,7 +146,7 @@ aside h2 {
     margin: 0 0 -26px -39px;
 }
 
-.prev:before {
+.prev span {
     content: "";
     width: 32px;
     height: 32px;
@@ -182,7 +202,6 @@ section {
     width: 30px;
     height: 30px;
     display: flex;
-    cursor: pointer;
     border: 1px solid #000;
 }
 
@@ -228,4 +247,10 @@ section {
 
 .select-color>div:nth-child(9) {
     background: #000000
+}
+
+.select-color.disabled,
+.select-color.disabled>div {
+    opacity: 0.25;
+    cursor: not-allowed;
 }
