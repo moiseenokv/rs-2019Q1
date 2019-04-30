@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
-// eslint-disable-next-line no-console
 document.addEventListener('DOMContentLoaded', () => {
   // eslint-disable-next-line camelcase
   let current_tool;
@@ -84,6 +83,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.querySelector('.move').addEventListener('dblclick', (e) => {
+    // eslint-disable-next-line camelcase
+
+    if (e.target.classList.contains('active')) {
+      e.target.innerText = 'Move';
+      e.target.classList.remove('active');
+      document.body.removeAttribute('class');
+      document.body.setAttribute('class', 'move');
+      // eslint-disable-next-line camelcase
+      current_tool = 'move';
+    } else {
+      // eslint-disable-next-line camelcase
+      current_tool = 'movegrid';
+      e.target.classList.add('active');
+      e.target.innerText = 'Move grid';
+      document.body.setAttribute('class', 'movegrid');
+      select_color.classList.add('disabled');
+    }
+  });
+
   const figures = document.querySelector('.canvas');
 
   figures.addEventListener('click', (e) => {
@@ -97,11 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // eslint-disable-next-line camelcase
       if (current_tool === 'transform') {
         e.target.classList.toggle('circle');
-      }
-      // eslint-disable-next-line camelcase
-      if (current_tool === 'choose-color') {
-        e.target.classList.toggle('circle');
-        // document.querySelector('body').click();
       }
     }
   });
@@ -168,12 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let item = '';
   let offset = [0, 0];
   let mousePosition;
+  const moovegrid = [];
 
   document.addEventListener('mousedown', (e) => {
     // eslint-disable-next-line camelcase
     if (current_tool === 'move') {
-      isDown = true;
       if (e.target.hasAttribute('figure')) {
+        isDown = true;
         item = e.target;
         e.target.classList.add('leave');
         offset = [
@@ -182,23 +197,58 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
       }
     }
+
+    // eslint-disable-next-line camelcase
+    if (current_tool === 'movegrid') {
+      // eslint-disable-next-line no-empty
+      moovegrid.length = 0;
+      if (e.target.hasAttribute('figure')) {
+        moovegrid.push(e.target.parentElement);
+      } else {
+        moovegrid.push(e.target);
+      }
+    }
   });
 
-  document.addEventListener('mouseup', () => {
+  function exchangeElements(el1, el2) {
+    const clonedEl1 = el1.cloneNode(true);
+    const clonedEl2 = el2.cloneNode(true);
+    el2.parentNode.replaceChild(clonedEl1, el2);
+    el1.parentNode.replaceChild(clonedEl2, el1);
+    return clonedEl1;
+  }
+
+  document.addEventListener('mouseup', (e) => {
     isDown = false;
+    // eslint-disable-next-line camelcase
+    if (current_tool === 'movegrid') {
+      // eslint-disable-next-line no-empty
+      if (e.target.hasAttribute('figure')) {
+        moovegrid.push(e.target.parentElement);
+      } else {
+        moovegrid.push(e.target);
+      }
+      // eslint-disable-next-line eqeqeq
+      if (moovegrid.length == 2 && moovegrid[0] != moovegrid[1]) {
+        exchangeElements(moovegrid[0], moovegrid[1]);
+      }
+      window.getSelection().empty();
+    }
   });
 
   document.addEventListener('mousemove', (e) => {
     // eslint-disable-next-line camelcase
-    if (current_tool === 'move') {
-      e.preventDefault();
-      if (isDown) {
-        mousePosition = {
-          x: e.clientX,
-          y: e.clientY,
-        };
-        item.style.left = `${mousePosition.x + offset[0]}px`;
-        item.style.top = `${mousePosition.y + offset[1]}px`;
+    if (current_tool === 'move' && isDown) {
+      if (item.hasAttribute('figure')) {
+        e.preventDefault();
+        if (isDown) {
+          mousePosition = {
+            x: e.clientX,
+            y: e.clientY,
+          };
+          item.style.left = `${mousePosition.x + offset[0]}px`;
+          item.style.top = `${mousePosition.y + offset[1]}px`;
+        }
       }
     }
   });

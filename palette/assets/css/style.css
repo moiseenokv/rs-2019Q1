@@ -11,6 +11,11 @@ body.move {
     cursor: url('../img/move.png'), auto;
 }
 
+body.movegrid {
+    cursor: url('../img/movegrid.png'), auto;
+}
+
+
 body.picker {
     cursor: url('../img/picker.png'), auto;
 }
@@ -127,6 +132,7 @@ button.active {
     list-style: none;
     justify-content: space-evenly;
     margin: 0 auto 37px auto;
+    cursor:pointer;
 }
 
 .palette li {
