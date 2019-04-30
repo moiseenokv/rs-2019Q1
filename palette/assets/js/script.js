@@ -1,8 +1,33 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
 document.addEventListener('DOMContentLoaded', () => {
   // eslint-disable-next-line camelcase
   let current_tool;
+
+  // eslint-disable-next-line no-empty
+  if (localStorage.getItem('cfg')) {
+    const cfg = JSON.parse(localStorage.getItem('cfg'));
+    cfg.forEach((item, index) => {
+      if (index <= cfg.length - 2) {
+        if (item[0] != null) {
+          document.querySelector(`.canvas > div:nth-child(${index + 1}) .el`).setAttribute('style', item[0]);
+        }
+        if (item[1] != null) {
+          document.querySelector(`.canvas > div:nth-child(${index + 1}) .el`).setAttribute('class', item[1]);
+        }
+        if (item[2] != null) {
+          document.querySelector(`.canvas > div:nth-child(${index + 1}) .el`).setAttribute('figure', item[2]);
+        }
+      } else {
+        document.querySelector('.current').setAttribute('data-color', item[0]);
+        document.querySelector('.current span').style.backgroundColor = item[0];
+        document.querySelector('.prev').setAttribute('data-color', item[1]);
+        document.querySelector('.prev span').style.backgroundColor = item[1];
+      }
+    });
+  }
+
   const tool = document.querySelector('.tools');
   // eslint-disable-next-line camelcase
   const select_color = document.querySelector('.select-color');
@@ -253,8 +278,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.querySelector('body')
-    .addEventListener('click', () => {
-      // console.log('changed');
+  window.addEventListener('unload', () => {
+    const currClr = document.querySelector('.current').getAttribute('data-color');
+    const prevClr = document.querySelector('.prev').getAttribute('data-color');
+    const arr = [];
+    Array.prototype.slice.call(document.querySelectorAll('.canvas .el')).forEach((element) => {
+      arr.push([element.getAttribute('style'), element.getAttribute('class'), element.getAttribute('figure')]);
     });
+    // eslint-disable-next-line camelcase
+    arr.push([currClr, prevClr, current_tool]);
+    localStorage.setItem('cfg', JSON.stringify(arr));
+  });
 });
