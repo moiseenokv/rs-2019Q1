@@ -64,22 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
       switch (current_tool) {
         case 'paint':
           document.body.setAttribute('class', 'buck');
-          // eslint-disable-next-line no-use-before-define
           select_color.classList.add('disabled');
           break;
         case 'choose-color':
           document.body.setAttribute('class', 'picker');
-          // eslint-disable-next-line no-use-before-define
           select_color.classList.remove('disabled');
           break;
         case 'move':
           document.body.setAttribute('class', 'move');
-          // eslint-disable-next-line no-use-before-define
           select_color.classList.add('disabled');
           break;
         case 'transform':
           document.body.setAttribute('class', 'transform');
-          // eslint-disable-next-line no-use-before-define
           select_color.classList.add('disabled');
           break;
         default:
@@ -168,10 +164,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  let isDown = false;
+  let item = '';
+  let offset = [0, 0];
+  let mousePosition;
+
+  document.addEventListener('mousedown', (e) => {
+    // eslint-disable-next-line camelcase
+    if (current_tool === 'move') {
+      isDown = true;
+      if (e.target.hasAttribute('figure')) {
+        item = e.target;
+        e.target.classList.add('leave');
+        offset = [
+          e.target.offsetLeft - e.clientX,
+          e.target.offsetTop - e.clientY,
+        ];
+      }
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    // eslint-disable-next-line camelcase
+    if (current_tool === 'move') {
+      e.preventDefault();
+      if (isDown) {
+        mousePosition = {
+          x: e.clientX,
+          y: e.clientY,
+        };
+        item.style.left = `${mousePosition.x + offset[0]}px`;
+        item.style.top = `${mousePosition.y + offset[1]}px`;
+      }
+    }
+  });
+
   document.querySelector('body')
     .addEventListener('click', () => {
       // console.log('changed');
     });
 });
-
-// keyupdown   - https://eloquentjavascript.net/15_event.html
