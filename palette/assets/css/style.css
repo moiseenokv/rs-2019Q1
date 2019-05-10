@@ -223,14 +223,6 @@ section {
     border: 1px solid #000;
 }
 
-
-/*
-.select-color.disabled,
-.select-color.disabled>div {
-    opacity: 0.25;
-    cursor: not-allowed;
-} */
-
 .select-color>div:nth-child(1) {
     background: #dd0000;
 }
