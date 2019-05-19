@@ -4,6 +4,8 @@ export default class Carousel {
     this.cont = document.createElement('div'); // where put all carouselData
     this.carContainer = '';
     this.pageItems = '';
+    this.nextPage = '';
+    this.currPage = '';
   }
 
   prepare() {
@@ -16,12 +18,28 @@ export default class Carousel {
   addPages() {
     this.pageItems = document.createElement('div');
     this.pageItems.setAttribute('class', 'pages');
-    this.pageItems.innerHTML = `<ul>
-      <li>1</li>
-      <li>1</li>
-      <li>4</li>
-    </ul>`;
+
+    const pageUl = document.createElement('ul');
+    this.pageItems.append(pageUl);
+
+    const pageLiPrv = document.createElement('li');
+    pageLiPrv.classList.add('prv');
+    pageUl.append(pageLiPrv);
+
+    const pageLiCur = document.createElement('li');
+    pageLiCur.classList.add('curr');
+    pageUl.append(pageLiCur);
+
+    const pageLiNxt = document.createElement('li');
+    pageLiNxt.classList.add('nxt');
+    pageUl.append(pageLiNxt);
+
     return this.pageItems;
+  }
+
+  addCarouselOnlyItem() {
+    const carItems = this.generateItems();
+    return carItems;
   }
 
   addCarousel() {
@@ -179,6 +197,8 @@ export default class Carousel {
     }
 
     function windowListnerLoad() {
+      // eslint-disable-next-line no-console
+      console.log('loaded');
       setConfig();
       pagesInit();
     }
@@ -194,11 +214,13 @@ export default class Carousel {
       position = Math.min(position + width * count, 0);
       list.style.marginLeft = `${position}px`;
       if (position !== prevPosition) {
+        this.currPage = currPage;
         currPage -= 1;
+        this.nextPage = currPage;
         pCont[1].innerHTML = currPage;
         setActiveItem('prev');
         // eslint-disable-next-line no-console
-        console.log(currPage, position);
+        // console.log(currPage, position);
       }
     }
 
@@ -207,10 +229,12 @@ export default class Carousel {
       position = Math.max(position - width * count, -width * (listElems.length - count));
       list.style.marginLeft = `${position}px`;
       if (position !== prevPosition) {
+        this.currPage = currPage;
         currPage += 1;
+        this.nextPage = currPage;
         pCont[1].innerHTML = currPage;
         // eslint-disable-next-line no-console
-        console.log(currPage, position);
+        // console.log(currPage, position);
         setActiveItem('next');
       }
     }

@@ -9,6 +9,8 @@ export default class AppView {
     this.searchField = document.createElement('input');
     this.carousel = new Carousel();
     this.pageDiv = document.createElement('div');
+    this.currPage = '';
+    this.lastPage = '';
   }
 
   init() {
@@ -41,25 +43,43 @@ export default class AppView {
     this.where.append(this.output);
   }
 
+  getCurrPage() {
+    return this.carousel.currPage;
+  }
+
+  getNextPage() {
+    return this.carousel.nextPage;
+  }
+
   carouselView() {
     this.carousel.carouselItems = this.rndrData;
-    // eslint-disable-next-line no-console
-    console.log('before', this.output);
     this.output = document.createElement('div');
     this.output.insertAdjacentHTML('beforeend', this.carousel.addCarousel());
     this.output.append(this.carousel.addPages());
     this.where = document.getElementById('carousel');
-    this.where.insertAdjacentHTML('beforeend', this.output.innerHTML);
-    this.carousel.addCarouseljs();
+    this.addCarouseljs();
+  }
 
+  carouselNextView() {
+    this.carousel.carouselItems = this.rndrData;
+    this.output = document.createElement('div');
+    this.output.insertAdjacentHTML('beforeend', this.carousel.addCarouselOnlyItem());
     // eslint-disable-next-line no-console
-    // console.log(this.carousel.addCarousel());
-    // this.output.append(this.carousel.addPages());
+    // console.log(this.output);
+    this.where = document.querySelector('.images');
+  }
+
+  addCarouseljs() {
+    // think about promise await async
+    setTimeout(() => {
+      this.carousel.addCarouseljs();
+      this.currPage = document.querySelector('.curr');
+      this.lastPage = document.querySelector('.nxt');
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
   }
 
   render() {
     this.where.insertAdjacentHTML('beforeend', this.output.innerHTML);
-    // eslint-disable-next-line no-console
-    console.log('Renderred');
   }
 }

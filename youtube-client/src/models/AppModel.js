@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export default class AppModel {
   constructor(state, query) {
     this.state = state;
@@ -35,6 +36,26 @@ export default class AppModel {
     } = this.state;
 
     const qIDs = `${url}${searchMethod}?key=${key}&${searchAdd}&q=${this.query}`;
+    const respGetIDs = await fetch(qIDs);
+    const dataGetIDs = await respGetIDs.json();
+    this.next = dataGetIDs.nextPageToken;
+    const IDs = AppModel.extractClipIDs(dataGetIDs);
+
+    const qData = `${url}${videoMethod}?key=${key}&id=${IDs}&${videoAdd}`;
+    // eslint-disable-next-line no-console
+    // console.log(qData);
+    const respGetData = await fetch(qData);
+    const dataGetData = await respGetData.json();
+    return AppModel.extractClipData(dataGetData);
+  }
+
+  async getClipDataNext() {
+    const {
+      url, key, lastQuery, nextSearch, methods: {
+        searchMethod, searchAdd, videoMethod, videoAdd,
+      },
+    } = this.state;
+    const qIDs = `${url}${searchMethod}?key=${key}&${searchAdd}&q=${lastQuery}&pageToken=${nextSearch}`;
     const respGetIDs = await fetch(qIDs);
     const dataGetIDs = await respGetIDs.json();
     this.next = dataGetIDs.nextPageToken;
