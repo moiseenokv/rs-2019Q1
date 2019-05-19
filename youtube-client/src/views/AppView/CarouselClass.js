@@ -197,8 +197,6 @@ export default class Carousel {
     }
 
     function windowListnerLoad() {
-      // eslint-disable-next-line no-console
-      console.log('loaded');
       setConfig();
       pagesInit();
     }
@@ -219,8 +217,6 @@ export default class Carousel {
         this.nextPage = currPage;
         pCont[1].innerHTML = currPage;
         setActiveItem('prev');
-        // eslint-disable-next-line no-console
-        // console.log(currPage, position);
       }
     }
 
@@ -233,8 +229,6 @@ export default class Carousel {
         currPage += 1;
         this.nextPage = currPage;
         pCont[1].innerHTML = currPage;
-        // eslint-disable-next-line no-console
-        // console.log(currPage, position);
         setActiveItem('next');
       }
     }

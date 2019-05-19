@@ -184,6 +184,10 @@ a.snippet {
   margin: 0px 0px -16px -25px;
 }
 
+.channel {
+  height: 39px;
+}
+
 .snippet h3 {
   padding: 6px 0 6px 20px;
   margin: 0;
