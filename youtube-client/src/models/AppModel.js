@@ -2,6 +2,7 @@ export default class AppModel {
   constructor(state, query) {
     this.state = state;
     this.query = query;
+    this.next = '';
   }
 
   static extractClipIDs(data) {
@@ -38,8 +39,12 @@ export default class AppModel {
     const dataGetIDs = await respGetIDs.json();
     this.next = dataGetIDs.nextPageToken;
     const IDs = AppModel.extractClipIDs(dataGetIDs);
+    // eslint-disable-next-line no-console
+    console.log(this.next);
 
     const qData = `${url}${videoMethod}?key=${key}&id=${IDs}&${videoAdd}`;
+    // eslint-disable-next-line no-console
+    // console.log(qData);
     const respGetData = await fetch(qData);
     const dataGetData = await respGetData.json();
     return AppModel.extractClipData(dataGetData);

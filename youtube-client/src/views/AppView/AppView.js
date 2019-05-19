@@ -1,3 +1,5 @@
+import Carousel from './CarouselClass';
+
 export default class AppView {
   constructor() {
     this.rndrData = [];
@@ -5,7 +7,7 @@ export default class AppView {
     this.where = '';
     this.form = document.createElement('form');
     this.searchField = document.createElement('input');
-    this.resultDiv = document.createElement('div');
+    this.carousel = new Carousel();
     this.pageDiv = document.createElement('div');
   }
 
@@ -30,9 +32,7 @@ export default class AppView {
     searchButton.value = 'Search';
     this.form.append(searchButton);
     searchDiv.append(this.form);
-    this.resultDiv.classList.add('result');
-    this.resultDiv.setAttribute('id', 'result');
-    cont.append(this.resultDiv);
+    cont.append(this.carousel.prepare());
     this.pageDiv.classList.add('page');
     this.pageDiv.setAttribute('id', 'page');
     cont.append(this.pageDiv);
@@ -41,44 +41,20 @@ export default class AppView {
     this.where.append(this.output);
   }
 
-  cardsViev() {
-    const ulCards = document.createElement('ul');
-    ulCards.setAttribute('id', 'items');
-    this.rndrData.forEach((item) => {
-      const liItem = document.createElement('li');
-      liItem.classList.add('item');
-      liItem.innerHTML = `<a href="https://www.youtube.com/watch?v=${item[0]}" target="_blank" class="snippet">
-      <img src="${item[6]}" alt="${item[2]}">
-      <h3 class="title">${item[2]}</h3>
-       <ul>
-         <li class="channel">${item[1]}</li>
-         <li class="published">${item[4]}</li>
-         <li class="views">${item[5]}</li>
-       </ul>
-       <p class="description">${(item[3].length >= 147) ? item[3].slice(0, 147) : item[3]}...</p>
-    </a>`;
-      ulCards.append(liItem);
-    });
-    return ulCards;
-  }
-
   carouselView() {
-    this.output = document.createElement('div');
-    const navLeft = document.createElement('button');
-    navLeft.innerText = '⇦';
-    navLeft.classList.add('arrow');
-    navLeft.classList.add('prev');
-    this.output.append(navLeft);
-    this.output.append(this.cardsViev());
-    const navRight = document.createElement('button');
-    navRight.innerText = '⇨';
-    navRight.classList.add('arrow');
-    navRight.classList.add('next');
-    this.output.append(navRight);
-    this.where = document.getElementById('result');
+    this.carousel.carouselItems = this.rndrData;
     // eslint-disable-next-line no-console
-    console.log(this.where, this.output);
-    // this.where.insertAdjacentHTML('beforeend', this.output.innerHTML);
+    console.log('before', this.output);
+    this.output = document.createElement('div');
+    this.output.insertAdjacentHTML('beforeend', this.carousel.addCarousel());
+    this.output.append(this.carousel.addPages());
+    this.where = document.getElementById('carousel');
+    this.where.insertAdjacentHTML('beforeend', this.output.innerHTML);
+    this.carousel.addCarouseljs();
+
+    // eslint-disable-next-line no-console
+    // console.log(this.carousel.addCarousel());
+    // this.output.append(this.carousel.addPages());
   }
 
   render() {

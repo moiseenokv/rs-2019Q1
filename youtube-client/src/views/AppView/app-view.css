@@ -18,28 +18,15 @@ body{
   background: url('./img/background.jpg');
   background-position: center center;
   background-size: cover;
-  height: 100vh;
-}
-
-ul{
-  list-style: none;
-}
-
-section {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.container {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 25px;
+  padding: 10px;
+  margin-bottom: 25px;
 }
 
 h1 {
   color: #ddd;
   font-weight: normal;
   text-align: center;
+  margin: 40px 0 0;
 }
 
 .search {
@@ -49,6 +36,15 @@ h1 {
   justify-content: space-around;
 }
 
+form {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  width: 98%;
+  align-items: baseline;
+  height:70px;
+}
+
 input[type="text"] {
   padding: 10px;
   border: 1px solid #fff;
@@ -56,6 +52,10 @@ input[type="text"] {
   font-size: 16px;
   background: rgba(255,255,255,0.3);
   border-radius: 5px;
+}
+
+input[type="text"] {
+  border:none;
 }
 
 input[type="submit"] {
@@ -73,35 +73,73 @@ input[type="submit"]:hover {
   transition: cubic-bezier(0.755, 0.05, 0.855, 0.06);
 }
 
-form {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
-  width: 98%;
-  align-items: baseline;
-}
-
-.result {
-  margin: 75px 0;
-}
-
-.result > ul {
-  list-style: none;
+.carousel {
+  position: relative;
+  width: 1256px;
+  padding: 10px 70px;
   margin: 0 auto;
-  display: flex;
-  width: calc(100% - 200px);
-  justify-content: space-evenly;
-  align-items: center;
 }
 
-li.item {
-  background: rgba(255,255,255,0.8);
-  max-width: 298px;
-  transition: all 0.5s;
+.carousel img {
+  width: 298px;
+  height: 160px;
+  display: block;
+  margin: 0 auto;
+}
+
+.arrow {
+  position: absolute;
+  top: 210px;
+  padding: 0;
+  font-size: 24px;
+  color: #fff;
+  display: block;
+  width: 45px;
+  border: none;
+  background: no-repeat;
+}
+
+.arrow:focus {
+  outline: none;
+}
+
+.arrow:hover {
+  cursor: pointer;
   opacity: 0.7;
 }
 
-li.item:hover {
+.prev {
+  left: 7px;
+}
+
+.next {
+  right: 7px;
+}
+
+.gallery {
+  width: 1256px;
+  overflow: hidden;
+}
+
+.gallery > ul {
+  display: flex;
+  width: 99999px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  transition: margin-left 950ms;
+}
+
+.images > li {
+  display: inline-block;
+  width:314px;
+  z-index: 10;
+  transition: all 0.5s;
+  opacity: 0.7;
+
+}
+
+.images > li:hover {
   margin-top:-12px;
   opacity: 1;
 }
@@ -147,10 +185,11 @@ a.snippet {
 }
 
 .snippet h3 {
-  padding: 0 0 0 20px;
-  margin: 5px 0;
+  padding: 6px 0 6px 20px;
+  margin: 0;
   font-style: italic;
-  height: 80px;
+  height: 60px;
+  overflow: hidden;
 }
 
 p {
@@ -159,19 +198,41 @@ p {
   height: 65px;
 }
 
-.arrow {
-  border: 1px solid #fff;
-  background: rgba(255,255,255,0.7);
-  color: #000;
-  font-size: 14px;
-  font-weight: bold;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all 0.5s;
+.images div {
+  background: rgba(255,255,255,0.8);
+  width: 298px;
+  margin: 0 auto;
+  padding: 0 0 2px 0;
 }
 
-.arrow:hover {
-  box-shadow: 0px 0px 18px #fff;
+
+.gallery span {
+  left: 10px;
+    top: 0px;
+    z-index: 30;
+    color: yellow;
+}
+
+.pages {
+  margin: 50px auto 50px auto;
+display: flex;
+justify-content: center;
+}
+
+.pages ul {
+list-style: none;
+display: flex;
+flex-flow: row;
+justify-content: space-between;
+width: 145px;
+}
+
+.pages li {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+background: #eee;
 }
