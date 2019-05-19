@@ -43,16 +43,10 @@ export default class App {
     setTimeout(() => {
       appView.currPage.addEventListener('click', (e) => {
         e.preventDefault();
-        // eslint-disable-next-line no-console
-        console.log('hello');
         const currPage = parseInt(appView.currPage.innerText, 10);
         const lastPage = parseInt(appView.lastPage.innerText, 10);
         if ((lastPage - currPage) === 1) {
           this.searchNext();
-          this.someConst = 0;
-        // eslint-disable-next-line no-empty
-        } else {
-          this.someConst = 1;
         }
       });
     }, 200);
@@ -75,8 +69,6 @@ export default class App {
       const data = await model.getClipData();
       this.state.lastQuery = model.query;
       this.state.next = model.next;
-      // eslint-disable-next-line no-console
-      console.log(data);
       this.view.rndrData = await data;
       this.view.carouselNextView();
       this.view.render();

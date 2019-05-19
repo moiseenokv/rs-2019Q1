@@ -63,10 +63,8 @@ export default class AppView {
   carouselNextView() {
     this.carousel.carouselItems = this.rndrData;
     this.output = document.createElement('div');
-    this.output.insertAdjacentHTML('beforeend', this.carousel.addCarouselOnlyItem());
-    // eslint-disable-next-line no-console
-    // console.log(this.output);
-    this.where = document.querySelector('.images');
+    // this.output.insertAdjacentHTML('beforeend', this.carousel.addCarouselOnlyItem());
+    // this.where = document.querySelector('.images');
   }
 
   addCarouseljs() {
