@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Codejam Palette Task</title>
+    <link rel="icon" type="image/png" href="./assets/img/fill.png" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <main>
+        <aside>
+            <h2>Tools:</h2>
+            <div class="tools">
+                <ul>
+                    <li><button title="Hit 'p' key to enable paint option" data-action="paint" class="paint">Paint Bucket</button></li>
+                    <li><button title="Hit 'c' key to enable color choose option" data-action="choose-color" class="choose-color">Choose Color</button></li>
+                    <li><button title="Hit 'm' key to enable move option" data-action="move" class="move">Move</button></li>
+                    <li><button title="Hit 't' key to enable transform option" data-action="transform" class="transform">Transform</button></li>
+                </ul>
+            </div>
+            <h2>Colors:</h2>
+            <div class="palette">
+                <ul class="curr-prev">
+                    <li class="current" data-color="#789212">
+                        <span></span>
+                        <p>current</p>
+                    </li>
+                    <li class="prev" data-color="#cfcfcf">
+                        <span></span>
+                        <p>previous</p>
+                    </li>
+                </ul>
+                <div class="select-color disabled">
+                    <div title="red" data-color="#dd0000"></div>
+                    <div title="orange" data-color="#fe6230"></div>
+                    <div title="yellow" data-color="#fef600"></div>
+                    <div title="green" data-color="#00bb00"></div>
+                    <div title="indigo" data-color="#009bfe"></div>
+                    <div title="blue" data-color="#000083"></div>
+                    <div title="violet" data-color="#30009b"></div>
+                    <div title="white" data-color="#ffffff"></div>
+                    <div title="black" data-color="#000000"></div>
+                </div>
+            </div>
+        </aside>
+        <section>
+            <h1>Codejam - Palette</h1>
+            <div class="canvas">
+                <div>
+                    <div class="el" figure="1"></div>
+                </div>
+                <div>
+                    <div class="el" figure="2"></div>
+                </div>
+                <div>
+                    <div class="el" figure="3"></div>
+                </div>
+                <div>
+                    <div class="el" figure="4"></div>
+                </div>
+                <div>
+                    <div class="el" figure="5"></div>
+                </div>
+                <div>
+                    <div class="el" figure="6"></div>
+                </div>
+                <div>
+                    <div class="el circle" figure="7"></div>
+                </div>
+                <div>
+                    <div class="el" figure="8"></div>
+                </div>
+                <div>
+                    <div class="el" figure="9"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="./assets/js/script.js" type="text/javascript"></script>
+</body>
+
+</html>
