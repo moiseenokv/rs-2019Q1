@@ -1,4 +1,4 @@
-# H1 Presentation task.
+# Presentation task.
 
 ### Topic: SPA & AJAX Technology
 
