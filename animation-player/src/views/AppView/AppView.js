@@ -62,11 +62,6 @@ export default class AppView {
       butCopy.innerText = 'copy';
       opt.append(butCopy);
 
-      const butMove = document.createElement('button');
-      butMove.classList.add('move');
-      butMove.innerText = 'move';
-      opt.append(butMove);
-
       const butDel = document.createElement('button');
       butDel.classList.add('del');
       butDel.innerText = 'del';
@@ -104,9 +99,6 @@ export default class AppView {
         elem.remove();
         reIndex();
       }
-
-      /* if (event.target.className === 'move') {
-      } */
     });
   }
 
@@ -170,8 +162,7 @@ export default class AppView {
         j += 1;
       }, 1000 / fps);
     }
-
-    preFrames.addEventListener('DOMNodeInserted', () => {
+    function startAnimation() {
       setTimeout(() => {
         const arrImgPrepare = [];
         Object.values(preFrames.children).forEach((img) => {
@@ -199,7 +190,9 @@ export default class AppView {
         }
         play(range.value);
       }, 200);
-    });
+    }
+    preFrames.addEventListener('DOMNodeInserted', startAnimation);
+
 
     range.addEventListener('input', () => {
       curFps.innerText = range.value;
@@ -251,7 +244,6 @@ export default class AppView {
         <div class="opt">
             <button class="num">1</button>
             <button class="copy">copy</button>
-            <button class="move">move</button>
             <button class="del">del</button>
         </div>
     </div>`;
