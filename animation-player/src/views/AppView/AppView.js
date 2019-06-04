@@ -299,11 +299,6 @@ export default class AppView {
     prevFrame.classList.add('prev-frame');
     this.preview.append(prevFrame);
 
-    // create img in prev-frame
-    const prevFrameImg = document.createElement('img');
-    prevFrameImg.setAttribute('src', 'img.jpg');
-    prevFrame.append(prevFrameImg);
-
     // create FPS indicator
     const fpsInd = document.createElement('span');
     fpsInd.classList.add('fps-num');
