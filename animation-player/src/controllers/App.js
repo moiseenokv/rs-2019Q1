@@ -7,5 +7,6 @@ export default class App {
 
   init() {
     this.view.initialView();
+    this.view.render();
   }
 }

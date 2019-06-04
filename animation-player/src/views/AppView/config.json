@@ -26,6 +26,8 @@
         "blue":"000083",
         "violet":"30009b",
         "white":"ffffff",
-        "black":"000000"
+        "black":"000000",
+        "curr":"789212",
+        "prev":"cfcfcf"
     }
 }

@@ -1,0 +1,155 @@
+:fullscreen {
+	width:50%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid;
+    justify-content: center;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+.container > div {
+    border: 1px solid;
+}
+
+.palette {
+    width: 12%;
+    text-align: center;
+    background: #ececec;
+}
+
+.colors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.colors > div {
+    width: 50px;
+    height: 50px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.colors > div:hover {
+   opacity:0.8;
+}
+
+.frames {
+    width: 12%;
+    text-align: center;
+}
+.frame {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px solid;
+    margin: 7px 0;
+}
+
+.frame > img {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #666;
+}
+
+.fr {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+button {
+    margin: 10px;
+}
+
+.opt {
+    position: relative;
+    height: 100%;
+    background-image:url('./img/img.jpg'); 
+    background: rgba(0, 0, 0, 0.2);
+}
+
+
+.opt > button {
+    position: absolute;
+    margin: 0;
+    border: none;
+    font-size: 18px;
+    background: #f88508;
+    color:#fff;
+    cursor: pointer;
+}
+
+.opt > button:hover {
+    opacity:0.5;
+}
+
+button.num {
+    top: 0px;
+    left: 0px;
+}
+
+button.copy {
+    top: 0;
+    right: 0;
+}
+
+button.move {
+    bottom: 0;
+    left: 0;
+}
+
+button.del {
+    bottom: 0;
+    right: 0;
+}
+
+
+.prev {
+    width: 18%;
+    text-align: center;
+}
+
+.prev-frame {
+    width: 200px;
+    height: 200px;
+    background: #eee;
+    margin: 28px auto;
+    position: relative;
+    border: 3px solid #eee;
+}
+
+.prev img {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.canvas {
+    width: 56%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+#canvas {
+    border: 1px solid;
+}
