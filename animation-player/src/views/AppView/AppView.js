@@ -201,6 +201,16 @@ export default class AppView {
     });
   }
 
+  fullScreen() {
+    const fullScreen = this.preview.querySelector('.full-screen');
+    const prevCont = this.preview.querySelector('.prev-frame');
+    fullScreen.addEventListener('click', () => {
+      if (prevCont.requestFullscreen) {
+        prevCont.requestFullscreen();
+      }
+    });
+  }
+
 
   initialView() {
     this.content.innerHTML = '';
