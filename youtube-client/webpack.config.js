@@ -37,5 +37,9 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({
+    meta: {
+      viewport: 'width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.85',
+    },
+  })],
 };

@@ -6,12 +6,9 @@ export default class App {
     this.view = '';
     this.query = '';
     this.renderData = '';
-    this.lastQuery = '';
-    this.someConst = 1;
-    this.nextSearch = '';
     this.state = {
       url: 'https://www.googleapis.com/youtube/v3/',
-      key: 'AIzaSyAkWCHEovWOBA7SYl4wDKREyPF4QLWGwEU',
+      key: 'AIzaSyBXpR3MRXN4v6ObqACVmBa6bSkQuEXXMSA',
       next: '',
       lastQuery: '',
       methods: {
@@ -23,6 +20,26 @@ export default class App {
       },
     };
     this.model = new AppModel();
+    this.listnerNext = 0;
+  }
+
+  nextPackListner() {
+    this.listnerNext = 0;
+    let got = 0;
+    this.view.carContainer.querySelector('.pages li').addEventListener('DOMNodeInserted', () => {
+      if (got === 0) {
+        const clickNext = this.view.carContainer.querySelector('.next');
+        clickNext.addEventListener('click', () => {
+          const pages = this.view.carContainer.querySelectorAll('.pages li');
+          const getLastPage = parseInt(pages[2].innerText, 10);
+          const getCurrPage = parseInt(pages[1].innerText, 10);
+          if ((getLastPage - getCurrPage) === 1) {
+            this.searchNext();
+          }
+        });
+        got = 1;
+      }
+    });
   }
 
   init() {
@@ -34,44 +51,29 @@ export default class App {
   searchListner(appView) {
     appView.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.query = appView.searchField.value;
-      this.search();
+      this.query = appView.searchField.value.trim();
+      if (this.query !== '') {
+        this.search();
+      } else {
+        global.window.alert('Your query input is empty! ');
+      }
     });
   }
 
-  searchNextListner(appView) {
-    setTimeout(() => {
-      appView.currPage.addEventListener('click', (e) => {
-        e.preventDefault();
-        const currPage = parseInt(appView.currPage.innerText, 10);
-        const lastPage = parseInt(appView.lastPage.innerText, 10);
-        if ((lastPage - currPage) === 1) {
-          this.searchNext();
-        }
-      });
-    }, 200);
+  async searchNext() {
+    const dataNext = await this.model.getClipDataNext();
+    this.view.rndrData = await dataNext;
+    this.view.carouselView('next');
+    this.view.render();
   }
 
   async search() {
-    const model = new AppModel(this.state, this.query);
-    const data = await model.getClipData();
-    this.state.lastQuery = model.query;
-    this.state.next = model.next;
+    this.model.state = this.state;
+    this.model.query = this.query;
+    const data = await this.model.getClipData();
     this.view.rndrData = await data;
-    this.view.carouselView();
+    this.view.carouselView('new');
     this.view.render();
-    this.searchNextListner(this.view);
-  }
-
-  async searchNext() {
-    if (this.someConst === 1) {
-      const model = new AppModel(this.state, this.query);
-      const data = await model.getClipData();
-      this.state.lastQuery = model.query;
-      this.state.next = model.next;
-      this.view.rndrData = await data;
-      this.view.carouselNextView();
-      this.view.render();
-    }
+    this.nextPackListner();
   }
 }

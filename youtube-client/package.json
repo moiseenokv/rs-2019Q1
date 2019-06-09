@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --mode development --watch",
     "build": "webpack --mode production",
     "start": "node src/index.js",
-    "lint": "eslint src/"
+    "lint": "eslint src/ --fix"
   },
   "author": "Vitali  Maisiayonak <moiseenokv@gmail.com>",
   "license": "ISC",

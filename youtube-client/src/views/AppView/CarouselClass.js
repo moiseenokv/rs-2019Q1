@@ -1,7 +1,7 @@
 export default class Carousel {
   constructor() {
-    this.carouselItems = ''; // data object for parsing data
-    this.cont = document.createElement('div'); // where put all carouselData
+    this.carouselItems = '';
+    this.cont = document.createElement('div');
     this.carContainer = '';
     this.pageItems = '';
     this.nextPage = '';
@@ -37,11 +37,6 @@ export default class Carousel {
     return this.pageItems;
   }
 
-  addCarouselOnlyItem() {
-    const carItems = this.generateItems();
-    return carItems;
-  }
-
   addCarousel() {
     this.cont.innerHTML = '';
 
@@ -56,6 +51,7 @@ export default class Carousel {
     this.cont.append(gallery);
 
     const carItems = this.generateItems();
+    carItems.firstChild.classList.add('active');
     gallery.append(carItems);
 
     const navRight = document.createElement('button');
@@ -86,7 +82,6 @@ export default class Carousel {
     </a>`;
       ulCards.append(liItem);
     });
-    ulCards.firstChild.classList.add('active');
     return ulCards;
   }
 
@@ -95,7 +90,7 @@ export default class Carousel {
     let count = 4;
     const carousel = this.carContainer;
     const list = carousel.querySelector('ul.images');
-    const listElems = carousel.querySelectorAll('ul.images > li');
+    let listElems = carousel.querySelectorAll('ul.images > li');
     const pCont = document.querySelectorAll('.pages li');
     let position = 0;
     let prevPosition = 0;
@@ -103,7 +98,6 @@ export default class Carousel {
     let isDown = false;
     let startX = 0;
     let endX = 0;
-
 
     function isMobile() {
       return (/iphone|ipod|ipad|android|ie|blackberry|fennec/).test(navigator.userAgent.toLowerCase());
@@ -113,23 +107,23 @@ export default class Carousel {
       const gal = carousel.querySelector('.gallery');
 
       if (window.innerWidth >= 1337) {
-        carousel.style.cssText = 'width:1256px;';
-        gal.style.cssText = 'width:1256px;';
+        carousel.style.width = '1256px;';
+        gal.style.width = '1256px;';
         count = 4;
       }
       if (window.innerWidth <= 1337) {
-        carousel.style.cssText = 'width:942px;';
-        gal.style.cssText = 'width:942px;';
+        carousel.style.width = '942px;';
+        gal.style.width = '942px;';
         count = 3;
       }
       if (window.innerWidth <= 1044) {
-        carousel.style.cssText = 'width:628px;';
-        gal.style.cssText = 'width:628px;';
+        carousel.style.width = '628px;';
+        gal.style.width = '628px;';
         count = 2;
       }
       if (window.innerWidth <= 720) {
-        carousel.style.cssText = 'width:314px;';
-        gal.style.cssText = 'width:314px;';
+        carousel.style.width = '314px;';
+        gal.style.width = '314px;';
         count = 1;
       }
 
@@ -145,6 +139,13 @@ export default class Carousel {
       }
     }
 
+    function pagesInit(pageNumber) {
+      const pages = Math.ceil(carousel.querySelector('ul.images').childElementCount / count);
+      pCont[0].innerHTML = 1;
+      pCont[1].innerHTML = pageNumber;
+      pCont[2].innerHTML = pages;
+    }
+
     function getActiveItem() {
       const childItem = carousel.querySelector('.carousel li.active');
       const parentItem = childItem.parentNode;
@@ -152,26 +153,13 @@ export default class Carousel {
       return getIndex;
     }
 
-    function pagesInit() {
-      const pages = Math.ceil(list.childElementCount / count);
-      pCont[0].innerHTML = 1;
-      pCont[1].innerHTML = currPage;
-      pCont[2].innerHTML = pages;
-    }
-
     function setActiveItem(type) {
       let active = getActiveItem();
+      listElems = carousel.querySelectorAll('ul.images > li');
 
       function leftPages() {
         if (active >= 0) {
           return Math.ceil((active + 1) / count);
-        }
-        return false;
-      }
-
-      function rightPages() {
-        if (active >= 0) {
-          return Math.ceil((listElems.length - active + count - 1) / count);
         }
         return false;
       }
@@ -189,21 +177,20 @@ export default class Carousel {
         listElems[active].classList.remove('active');
         listElems[active - count].classList.add('active');
       }
+
       active = getActiveItem();
       pCont[1].innerHTML = leftPages();
-      pagesInit();
-      // eslint-disable-next-line no-console
-      console.log(1, leftPages(), rightPages() + leftPages() - 2);
+      pagesInit(pCont[1].innerHTML);
     }
 
     function windowListnerLoad() {
       setConfig();
-      pagesInit();
+      pagesInit(1);
     }
 
     function windowListnerResize() {
       setConfig();
-      pagesInit();
+      pagesInit(pCont[1].innerHTML);
       setActiveItem();
     }
 
@@ -248,10 +235,29 @@ export default class Carousel {
       isDown = false;
       endX = ev.pageX;
       list.classList.remove('down');
-      // eslint-disable-next-line eqeqeq
-      if ((endX - startX) > 0 && isDown == false) {
+      if ((endX - startX) > 0 && isDown === false) {
         carousel.querySelector('.next').click();
       } else {
+        carousel.querySelector('.prev').click();
+      }
+    }
+
+    function touchstartListner(ev) {
+      isDown = true;
+      startX = ev.changedTouches[0].pageX;
+    }
+
+    function touchleaveListner() {
+      global.console.log('touch leave fired');
+    }
+
+    function touchendListner(ev) {
+      isDown = false;
+      endX = ev.changedTouches[0].pageX;
+      if ((endX - startX) > 0) {
+        carousel.querySelector('.next').click();
+      }
+      if ((endX - startX) < 0) {
         carousel.querySelector('.prev').click();
       }
     }
@@ -263,5 +269,8 @@ export default class Carousel {
     list.addEventListener('mousedown', mousedownListner);
     list.addEventListener('mouseleave', mouseleaveListner);
     list.addEventListener('mouseup', mouseupListner);
+    list.addEventListener('touchstart', touchstartListner);
+    list.addEventListener('touchleave', touchleaveListner);
+    list.addEventListener('touchend', touchendListner);
   }
 }

@@ -8,20 +8,25 @@ export default class AppView {
     this.form = document.createElement('form');
     this.searchField = document.createElement('input');
     this.carousel = new Carousel();
+    this.carContainer = this.carousel.prepare();
     this.pageDiv = document.createElement('div');
     this.currPage = '';
     this.lastPage = '';
+    this.nextPack = '';
   }
 
   init() {
     this.output = document.createElement('div');
+
     const section = document.createElement('section');
     const cont = document.createElement('div');
     cont.classList.add('container');
     section.append(cont);
+
     const header = document.createElement('h1');
     header.innerText = 'Welcome to Youtube App Searcher';
     cont.append(header);
+
     const searchDiv = document.createElement('div');
     searchDiv.classList.add('search');
     cont.append(searchDiv);
@@ -34,41 +39,32 @@ export default class AppView {
     searchButton.value = 'Search';
     this.form.append(searchButton);
     searchDiv.append(this.form);
-    cont.append(this.carousel.prepare());
-    this.pageDiv.classList.add('page');
-    this.pageDiv.setAttribute('id', 'page');
-    cont.append(this.pageDiv);
+    cont.append(this.carContainer);
     this.output = section;
     this.where = document.body;
     this.where.append(this.output);
   }
 
-  getCurrPage() {
-    return this.carousel.currPage;
-  }
-
-  getNextPage() {
-    return this.carousel.nextPage;
-  }
-
-  carouselView() {
-    this.carousel.carouselItems = this.rndrData;
-    this.output = document.createElement('div');
-    this.output.insertAdjacentHTML('beforeend', this.carousel.addCarousel());
-    this.output.append(this.carousel.addPages());
-    this.where = document.getElementById('carousel');
-    this.addCarouseljs();
-  }
-
-  carouselNextView() {
-    this.carousel.carouselItems = this.rndrData;
-    this.output = document.createElement('div');
-    // this.output.insertAdjacentHTML('beforeend', this.carousel.addCarouselOnlyItem());
-    // this.where = document.querySelector('.images');
+  carouselView(type) {
+    if (type === 'new') {
+      document.getElementById('carousel').innerHTML = '';
+      this.carousel.carouselItems = this.rndrData;
+      this.output = document.createElement('div');
+      this.output.insertAdjacentHTML('beforeend', this.carousel.addCarousel());
+      this.output.append(this.carousel.addPages());
+      this.where = document.getElementById('carousel');
+      this.addCarouseljs();
+    }
+    if (type === 'next') {
+      this.carousel.carouselItems = this.rndrData;
+      this.output.innerHTML = '';
+      this.output = this.carousel.generateItems();
+      this.where = document.querySelector('.images');
+      this.addCarouseljs();
+    }
   }
 
   addCarouseljs() {
-    // think about promise await async
     setTimeout(() => {
       this.carousel.addCarouseljs();
       this.currPage = document.querySelector('.curr');
