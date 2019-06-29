@@ -190,6 +190,7 @@ export default class Tools {
     paletteContDiv.append(ulPaletteTemplates);
 
     const liColorTemplate = document.createElement('li');
+    liColorTemplate.classList.add('template');
     liColorTemplate.style.display = 'none';
     ulPaletteTemplates.append(liColorTemplate);
 
@@ -254,6 +255,11 @@ export default class Tools {
       return hex.length === 1 ? `0${hex}` : hex;
     }).join('')}`;
 
+    const addColor = mC.querySelector('.add');
+    const delColor = mC.querySelector('.palette-templates');
+
+    const paletteManagerContainer = document.querySelector('.palette-manager .colors');
+
     function modalInit() {
       const modal = document.querySelector('.modal');
       const openModal = document.querySelector('.color-editor');
@@ -297,7 +303,39 @@ export default class Tools {
       }
     }
 
+    function addColorListner(e) {
+      if (hexCont.innerText !== '') {
+        const getColorTemplate = mC.querySelector('.template');
+
+        const cloneColorTemplate = getColorTemplate.cloneNode(true);
+        cloneColorTemplate.style.display = '';
+        cloneColorTemplate.style.backgroundColor = hexCont.querySelector('span').innerText;
+        cloneColorTemplate.setAttribute('data-color', hexCont.querySelector('span').innerText);
+        // getColorTemplate.parentNode.prepend(cloneColorTemplate);
+        getColorTemplate.parentNode.insertBefore(cloneColorTemplate, e.target);
+
+        const liPMContainer = document.createElement('li');
+        liPMContainer.style.backgroundColor = hexCont.querySelector('span').innerText;
+        liPMContainer.setAttribute('data-color', hexCont.querySelector('span').innerText);
+        paletteManagerContainer.append(liPMContainer);
+      }
+    }
+
+    function delColorListner(e) {
+      if (e.target.parentNode.hasAttribute('data-color')) {
+        const dataAttrColor = e.target.parentNode.getAttribute('data-color');
+        const getElPMforDel = paletteManagerContainer.querySelector(`li[data-color="${dataAttrColor}"]`);
+        getElPMforDel.remove();
+        e.target.parentNode.remove();
+
+        global.console.log('clicked on del');
+      }
+    }
+
     modalInit();
+
+    delColor.addEventListener('click', delColorListner);
+    addColor.addEventListener('click', addColorListner);
     paletteCanvas.addEventListener('mouseup', paletteMouseUpListner);
     paletteCanvas.addEventListener('mousemove', paletteMouseMoveListner);
   }
