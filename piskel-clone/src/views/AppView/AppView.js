@@ -84,6 +84,7 @@ export default class AppView {
     this.output.innerHTML = '';
     this.output.append(AppView.headerInit());
     this.output.append(this.mainInit());
+    this.output.append(Tools.generatePaletteModal());
     this.where = document.body;
   }
 

@@ -165,6 +165,140 @@ export default class Tools {
   }
 
   static generatePaletteModal() {
+    const modalDiv = document.createElement('div');
+    modalDiv.classList.add('modal');
 
+    const modalContentDiv = document.createElement('div');
+    modalContentDiv.classList.add('modal-content');
+    modalDiv.append(modalContentDiv);
+
+    const closeButtonModal = document.createElement('span');
+    closeButtonModal.classList.add('close-button');
+    closeButtonModal.innerText = 'x';
+    modalContentDiv.append(closeButtonModal);
+
+    const titleModal = document.createElement('h3');
+    titleModal.innerText = 'Palette';
+    modalContentDiv.append(titleModal);
+
+    const paletteContDiv = document.createElement('div');
+    paletteContDiv.classList.add('palette-container');
+    modalContentDiv.append(paletteContDiv);
+
+    const ulPaletteTemplates = document.createElement('ul');
+    ulPaletteTemplates.classList.add('palette-templates');
+    paletteContDiv.append(ulPaletteTemplates);
+
+    const liColorTemplate = document.createElement('li');
+    liColorTemplate.style.display = 'none';
+    ulPaletteTemplates.append(liColorTemplate);
+
+    const closeButtonTemplate = document.createElement('span');
+    closeButtonTemplate.innerText = 'x';
+    liColorTemplate.append(closeButtonTemplate);
+
+    const liColorAddTemplate = document.createElement('li');
+    liColorAddTemplate.classList.add('add');
+    liColorAddTemplate.innerHTML = '+';
+    ulPaletteTemplates.append(liColorAddTemplate);
+
+    const divPickerCont = document.createElement('div');
+    divPickerCont.classList.add('picker');
+    paletteContDiv.append(divPickerCont);
+
+    const canvasColorPicker = document.createElement('canvas');
+    canvasColorPicker.id = 'palettCnv';
+    canvasColorPicker.width = 230;
+    canvasColorPicker.height = 230;
+    divPickerCont.append(canvasColorPicker);
+
+    const ulColorInfo = document.createElement('ul');
+    ulColorInfo.classList.add('color-info');
+    paletteContDiv.append(ulColorInfo);
+
+    const liColorInfoCurrColor = document.createElement('li');
+    liColorInfoCurrColor.classList.add('current-color');
+    ulColorInfo.append(liColorInfoCurrColor);
+
+    const liColorInfoHex = document.createElement('li');
+    liColorInfoHex.classList.add('hex');
+    liColorInfoHex.innerHTML = 'HEX: <span></span>';
+    ulColorInfo.append(liColorInfoHex);
+
+    const liColorInfoRgb = document.createElement('li');
+    liColorInfoRgb.classList.add('rgb');
+    liColorInfoRgb.innerHTML = 'RGB: <span></span>';
+    ulColorInfo.append(liColorInfoRgb);
+
+    return modalDiv;
+  }
+
+  paletteModalListner() {
+    this.flag = '';
+    const mC = document.querySelector('.modal-content');
+    const hexCont = document.querySelector('.hex');
+    const rgbCont = document.querySelector('.rgb');
+    const curColor = document.querySelector('.current-color');
+
+    const paletteCanvas = document.querySelector('#palettCnv');
+    const ctxPalette = paletteCanvas.getContext('2d');
+
+    const paletteImg = new Image();
+    paletteImg.src = './img/palette.jpg';
+    paletteImg.onload = () => {
+      ctxPalette.drawImage(paletteImg, 0, 0);
+    };
+
+    const rgbToHex = (r, g, b) => `#${[r, g, b].map((x) => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? `0${hex}` : hex;
+    }).join('')}`;
+
+    function modalInit() {
+      const modal = document.querySelector('.modal');
+      const openModal = document.querySelector('.color-editor');
+      const closeButton = modal.querySelector('.close-button');
+
+      function toggleModal() {
+        modal.classList.toggle('show-modal');
+      }
+
+      function windowOnClick(event) {
+        if (event.target === modal) {
+          toggleModal();
+        }
+      }
+
+      openModal.addEventListener('click', toggleModal);
+      closeButton.addEventListener('click', toggleModal);
+      window.addEventListener('click', windowOnClick);
+    }
+
+    function paletteMouseMoveListner(e) {
+      if (e.buttons > 0) {
+        const x = e.clientX - (mC.offsetLeft - (mC.offsetWidth / 2) + e.target.offsetLeft);
+        const y = e.clientY - (mC.offsetTop - (mC.offsetHeight / 2) + e.target.offsetTop);
+        const imgd = ctxPalette.getImageData(x, y, 100, 100).data;
+        const hexString = rgbToHex(imgd[0], imgd[1], imgd[2]);
+        curColor.style.background = hexString;
+        hexCont.children[0].innerText = hexString;
+        rgbCont.children[0].innerText = `${imgd[0]}, ${imgd[2]}, ${imgd[3]}`;
+      }
+    }
+
+    function paletteMouseUpListner(e) {
+      if (e.buttons === 0) {
+        const x = e.clientX - (mC.offsetLeft - (mC.offsetWidth / 2) + e.target.offsetLeft);
+        const y = e.clientY - (mC.offsetTop - (mC.offsetHeight / 2) + e.target.offsetTop);
+        const imgd = ctxPalette.getImageData(x, y, 1, 1).data;
+        const hexString = rgbToHex(imgd[0], imgd[1], imgd[2]);
+        hexCont.children[0].innerText = hexString;
+        rgbCont.children[0].innerText = `${imgd[0]}, ${imgd[2]}, ${imgd[3]}`;
+      }
+    }
+
+    modalInit();
+    paletteCanvas.addEventListener('mouseup', paletteMouseUpListner);
+    paletteCanvas.addEventListener('mousemove', paletteMouseMoveListner);
   }
 }
