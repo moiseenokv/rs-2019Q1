@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moovegrid = [];
 
   // eslint-disable-next-line no-empty
-  if (localStorage.getItem('cfg')) {
+  /* if (localStorage.getItem('cfg')) {
     const cfg = JSON.parse(localStorage.getItem('cfg'));
     cfg.forEach((item, index) => {
       if (index <= cfg.length - 2) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
+ */
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === kbdPaintKey) {
       const tool_paint = document.querySelector('.paint');

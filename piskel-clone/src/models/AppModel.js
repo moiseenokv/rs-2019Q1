@@ -1,6 +1,11 @@
+import Configuration from '../Configuration';
+
 export default class AppModel {
   constructor() {
-    this.query = '';
-    this.next = '';
+    this.data = new Configuration();
+  }
+
+  setProperty(key, val) {
+    this.data.current[key] = val;
   }
 }

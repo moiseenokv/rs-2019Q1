@@ -25,12 +25,12 @@ module.exports = {
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
-          'file-loader',
           {
-            loader: 'image-webpack-loader',
+            loader: 'file-loader',
             options: {
-              bypassOnDebug: true, // webpack@1.x
-              disable: true, // webpack@2.x and newer
+              name: '[name].[ext]',
+              outputPath: 'img/',
+              publicPath: 'img/',
             },
           },
         ],
@@ -38,8 +38,9 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({
+    title: 'Piskel Clone Project',
     meta: {
-      viewport: 'width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.85',
+      viewport: 'width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0',
     },
   })],
 };
