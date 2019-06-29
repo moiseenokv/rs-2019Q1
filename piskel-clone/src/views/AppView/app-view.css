@@ -10,7 +10,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #222222;
+  background: none;
 }
 
 /* Handle */
@@ -78,11 +78,11 @@ main {
 
 main > section {
   border:1px solid #fff;
-  height: 92vh;
+  height: 90vh;
 }
 
 .tools {
-  width: 7%;
+  width: 9%;
 }
 
 .frames {
@@ -90,7 +90,7 @@ main > section {
 }
 
 .draw {
-  width: 66%;
+  width: 61%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,7 +102,7 @@ main > section {
 }
 
 .preview {
-  width: 17%;
+  width: 19%;
 }
 .pen-size {
   display: flex;
@@ -497,6 +497,7 @@ li.frame.leave {
 ul.colors, ul.additional-tools {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   width: 100%;
   list-style: none;
   border-top: 2px solid #999;
@@ -718,3 +719,31 @@ li.add {
   cursor: pointer;
 }
 
+footer {
+  color: #FFD700;
+  display: flex;
+  font-weight: 600;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+footer button {
+  color: #000000;
+  background: #FFD700;
+  border: none;
+  font-weight: 600;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+footer button:hover {
+  color: #ffffff;
+  text-shadow: 0px 0px 2px #000;
+}
+
+.coord span {
+  display: inline-block;
+  width:25px;
+}

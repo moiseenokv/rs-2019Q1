@@ -149,7 +149,7 @@ export default class Frames {
 
         if (elem.classList.contains('del')) {
           const listFrames = framesContainer.querySelector('ul');
-          if (listFrames.childElementCount > 1 && elem.parentNode.parentNode.classList.contains('active')) {
+          if (listFrames.childElementCount > 1) {
             const getNumEl = elem.parentNode.querySelector('.num').innerText;
             elem.parentNode.parentNode.remove();
             if (getNumEl === '1') {

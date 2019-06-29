@@ -101,6 +101,7 @@ export default class Configuration {
         },
       ],
     };
+
     this.current = {
       tool: '1',
       penSize: '',
@@ -109,9 +110,10 @@ export default class Configuration {
       drawCanvas: {
         id: 'drawCanvas',
         ctx: {
-          color: '#c71919',
-          width: 18.75,
+          color: this.object.colorSelect[0],
+          penWidth: 18.75,
           height: 18.75,
+          canvasSize: 32,
         },
       },
     };

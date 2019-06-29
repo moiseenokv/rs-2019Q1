@@ -2,6 +2,7 @@ export default class Canvas {
   constructor() {
     this.data = '';
     this.flag = '';
+    this.canvas = '';
   }
 
   mainCanvas() {
@@ -20,6 +21,8 @@ export default class Canvas {
     ctx.lineCap = 'square';
     ctx.lineWidth = modelApp.ctx.width;
     ctx.lineHeight = modelApp.ctx.height;
+
+    const coordCont = document.querySelector('.coord');
 
     function getMousePos(canv, evt) {
       const rect = canv.getBoundingClientRect();
@@ -43,7 +46,8 @@ export default class Canvas {
         ctx.closePath();
       }
       const mousePos = getMousePos(canvas, e);
-      global.console.log(mousePos.x, mousePos.y);
+      coordCont.firstElementChild.innerText = parseInt(mousePos.x, 10);
+      coordCont.lastElementChild.innerText = parseInt(mousePos.y, 10);
     }
 
     function mouseUpListner() {
@@ -51,6 +55,7 @@ export default class Canvas {
       frameActiveImg.src = canvas.toDataURL();
       frameActiveImg.classList.remove('hidden');
     }
+
     canvas.addEventListener('mousemove', mouseMoveListner);
     canvas.addEventListener('mouseup', mouseUpListner);
   }

@@ -46,6 +46,33 @@ export default class AppView {
     return header;
   }
 
+  static footerInit() {
+    const footer = document.createElement('footer');
+
+    const divCanvasSize = document.createElement('div');
+    divCanvasSize.classList.add('canvas-size');
+    divCanvasSize.innerHTML = 'Canvas Size: <span>32x32</span>';
+    footer.append(divCanvasSize);
+
+    const divZoom = document.createElement('div');
+    divZoom.classList.add('zoom');
+    divZoom.innerHTML = 'Zoom: <span>1</span></span>';
+    footer.append(divZoom);
+
+    const divCoord = document.createElement('div');
+    divCoord.classList.add('coord');
+    divCoord.innerHTML = 'X:<span>0</span> Y:<span>0</span>';
+    footer.append(divCoord);
+
+
+    const butOptions = document.createElement('button');
+    butOptions.classList.add('options');
+    butOptions.innerText = 'Options';
+    footer.append(butOptions);
+
+    return footer;
+  }
+
   mainInit() {
     this.flag = '';
     const mainBlock = document.createElement('main');
@@ -84,6 +111,7 @@ export default class AppView {
     this.output.innerHTML = '';
     this.output.append(AppView.headerInit());
     this.output.append(this.mainInit());
+    this.output.append(AppView.footerInit());
     this.output.append(Tools.generatePaletteModal());
     this.where = document.body;
   }

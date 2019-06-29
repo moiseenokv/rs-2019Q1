@@ -64,6 +64,13 @@ export default class Tools {
         const getActive = getToolCont.querySelector('.tool.active');
         if (getActive) getActive.classList.remove('active');
         event.target.classList.add('active');
+
+        // const mainCanvas = document.querySelector('#drawCanvas');
+        // const ctx = mainCanvas.getContext('2d');
+
+        if (event.target.classList.contains('color-pick')) {
+          global.console.log('color-picker clicked');
+        }
       }
 
       // working with pen-size block
@@ -304,7 +311,7 @@ export default class Tools {
     }
 
     function addColorListner(e) {
-      if (hexCont.innerText !== '') {
+      if (hexCont.querySelector('span').innerText !== '') {
         const getColorTemplate = mC.querySelector('.template');
 
         const cloneColorTemplate = getColorTemplate.cloneNode(true);
