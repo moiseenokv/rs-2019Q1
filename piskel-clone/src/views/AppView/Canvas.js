@@ -85,6 +85,7 @@ export default class Canvas {
 
 
       if (cfg.usingTool === 'pen' && e.buttons > 0) {
+        global.console.log('pen');
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x - dx, y - dy);
@@ -94,6 +95,7 @@ export default class Canvas {
 
       if (cfg.usingTool === 'erase' && e.buttons > 0) {
         global.console.log('erase');
+        ctx.save();
         ctx.strokeStyle = 'rgb(255, 255, 255)';
         ctx.globalCompositeOperation = 'destination-out';
         ctx.fillStyle = 'rgba(255,0,0,0)';
@@ -101,6 +103,7 @@ export default class Canvas {
         ctx.moveTo(x, y);
         ctx.lineTo(x - dx, y - dy);
         ctx.stroke();
+        ctx.restore();
         ctx.closePath();
       }
 
@@ -140,13 +143,28 @@ export default class Canvas {
       }
     }
 
-    function mouseUpListner() {
+    function mouseUpListner(e) {
+      const newframeActiveImg = document.querySelector('.frame.active > img');
       const tempImg = document.querySelector('.draw > img');
-      tempImg.src = canvasAlt.toDataURL();
-      ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
-      ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
-      frameActiveImg.src = canvas.toDataURL();
-      frameActiveImg.classList.remove('hidden');
+
+      if (cfg.usingTool === 'rect' && e.buttons === 0) {
+        tempImg.src = canvasAlt.toDataURL();
+        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      if (cfg.usingTool === 'circle' && e.buttons === 0) {
+        tempImg.src = canvasAlt.toDataURL();
+        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      if (cfg.usingTool === 'stroke' && e.buttons === 0) {
+        tempImg.src = canvasAlt.toDataURL();
+        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      newframeActiveImg.src = canvas.toDataURL();
+      newframeActiveImg.classList.remove('hidden');
       saveFrames();
     }
 
@@ -162,8 +180,6 @@ export default class Canvas {
       }
 
       if (cfg.usingTool === 'stroke' && e.buttons > 0) {
-        // eslint-disable-next-line max-len
-        global.console.log(e.offsetX, e.offsetY);
         lastMousex = e.offsetX;
         lastMousey = e.offsetY;
       }

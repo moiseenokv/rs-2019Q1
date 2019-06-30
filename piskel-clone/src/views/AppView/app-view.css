@@ -110,10 +110,10 @@ main > section {
 
 #drawCanvas {
   position: absolute;
-  z-index:90;
+  z-index:100;
 }
 
-#altDrawCanvas {
+#drawCanvasAlt {
   position: absolute;
   z-index:90;
 }

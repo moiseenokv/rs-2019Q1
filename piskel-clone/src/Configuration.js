@@ -73,7 +73,7 @@ export default class Configuration {
     };
 
     this.settings = {
-      usingTool: 'pen',
+      usingTool: '',
       penSize: 1,
       fastColors: ['#c71919', '#f4ebeb'],
       canvasId: 'drawCanvas',

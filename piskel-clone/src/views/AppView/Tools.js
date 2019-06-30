@@ -22,10 +22,9 @@ export default class Tools {
 
   generateTools(obj) {
     obj.cont.classList.add(obj.className);
-    obj.data.forEach((tool, index) => {
+    obj.data.forEach((tool) => {
       const li = document.createElement('li');
       if (tool.hotKey[0] !== 'none') li.classList.add('tool');
-      if (index === 0) li.classList.add('active');
 
       li.classList.add(tool.class);
       this.toolTemplate.append(li);
