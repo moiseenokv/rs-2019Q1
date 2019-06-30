@@ -22,11 +22,11 @@ export default class Tools {
 
   generateTools(obj) {
     obj.cont.classList.add(obj.className);
-    obj.data.forEach((tool) => {
+    obj.data.forEach((tool, index) => {
       const li = document.createElement('li');
-      if (tool.hotKey[0] !== 'none') {
-        li.classList.add('tool');
-      }
+      if (tool.hotKey[0] !== 'none') li.classList.add('tool');
+      if (index === 0) li.classList.add('active');
+
       li.classList.add(tool.class);
       this.toolTemplate.append(li);
 
@@ -73,7 +73,6 @@ export default class Tools {
       }
 
       // working with pen-size block
-
       if (event.target.parentNode.classList.contains('pen-size')) {
         const cfg = modelApp.config.settings;
         const penSize = event.target;
@@ -98,7 +97,7 @@ export default class Tools {
           getParent.childNodes[1].style.background = tempColor;
           modelApp.setProperty('fastColors', [getParent.childNodes[0].style.background, getParent.childNodes[1].style.background]);
           ctx.strokeStyle = getParent.childNodes[0].style.background;
-          ctxAlt.strokeStylea = getParent.childNodes[0].style.background;
+          ctxAlt.strokeStyle = getParent.childNodes[0].style.background;
         }
       }
 
@@ -420,5 +419,36 @@ export default class Tools {
     addColor.addEventListener('click', addColorListner);
     paletteCanvas.addEventListener('mouseup', paletteMouseUpListner);
     paletteCanvas.addEventListener('mousemove', paletteMouseMoveListner);
+  }
+
+  canvasSizeListner(modelApp) {
+    this.flag = '';
+    const getCanvasSizes = document.querySelector('select.canvas-size');
+    const sizeValue = modelApp.config.settings.canvasSize;
+    global.console.log(sizeValue);
+    const setValueOption = getCanvasSizes.querySelector(`option[value="${sizeValue}"]`);
+    setValueOption.selected = 'selected';
+
+    function canvasReinit() {
+      const cfg = modelApp.config.settings;
+
+      const canvas = document.getElementById(cfg.canvasId);
+      const ctx = canvas.getContext('2d');
+
+      const canvasAlt = document.getElementById(cfg.canvasIdAlt);
+      const ctxAlt = canvasAlt.getContext('2d');
+
+      ctx.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+      ctx.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
+
+      ctxAlt.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+      ctxAlt.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
+    }
+
+    function canvasSizesChangeLstner(e) {
+      modelApp.setProperty('canvasSize', e.target.value);
+      canvasReinit();
+    }
+    getCanvasSizes.addEventListener('change', canvasSizesChangeLstner);
   }
 }

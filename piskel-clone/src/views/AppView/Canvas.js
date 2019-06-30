@@ -28,7 +28,6 @@ export default class Canvas {
     return canvasAlt;
   }
 
-
   mainCanvasInit(modelApp) {
     this.flag = '';
     const cfg = modelApp.config.settings;
@@ -47,6 +46,9 @@ export default class Canvas {
     ctxAlt.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
 
     const coordCont = document.querySelector('.coord');
+    const frameActiveImg = document.querySelector('.frame.active > img');
+    if (frameActiveImg) ctx.drawImage(frameActiveImg, 0, 0, canvas.width, canvas.height);
+
 
     let lastMousex = '';
     let lastMousey = '';
@@ -61,6 +63,18 @@ export default class Canvas {
       };
     }
 
+    function saveFrames() {
+      const framesContainer = document.querySelector('.frames');
+      const getImages = framesContainer.getElementsByTagName('img');
+      const imgSrcs = [];
+      Object.values(getImages).forEach((img) => {
+        if (!img.classList.contains('hidden')) {
+          imgSrcs.push(img.src);
+        }
+      });
+      modelApp.saveFrames(imgSrcs);
+    }
+
     function mouseMoveListner(e) {
       const x = e.offsetX;
       const y = e.offsetY;
@@ -71,7 +85,6 @@ export default class Canvas {
 
 
       if (cfg.usingTool === 'pen' && e.buttons > 0) {
-        global.console.log('pen');
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x - dx, y - dy);
@@ -115,24 +128,26 @@ export default class Canvas {
         ctxAlt.stroke();
         ctxAlt.closePath();
       }
+
+      if (cfg.usingTool === 'stroke' && e.buttons > 0) {
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+        ctxAlt.beginPath();
+
+        ctxAlt.moveTo(lastMousex, lastMousey);
+        ctxAlt.lineTo(e.offsetX, e.offsetY);
+        ctxAlt.stroke();
+        ctxAlt.closePath();
+      }
     }
 
-    function mouseUpListner(e) {
-      const frameActiveImg = document.querySelector('.frame.active > img');
+    function mouseUpListner() {
       const tempImg = document.querySelector('.draw > img');
-
-      if (cfg.usingTool === 'rect' && e.buttons === 0) {
-        tempImg.src = canvasAlt.toDataURL();
-        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
-        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
-      }
-      if (cfg.usingTool === 'circle' && e.buttons === 0) {
-        tempImg.src = canvasAlt.toDataURL();
-        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
-        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      tempImg.src = canvasAlt.toDataURL();
+      ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+      ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
       frameActiveImg.src = canvas.toDataURL();
       frameActiveImg.classList.remove('hidden');
+      saveFrames();
     }
 
     function mouseDownListner(e) {
@@ -145,14 +160,23 @@ export default class Canvas {
         lastMousex = e.offsetX;
         lastMousey = e.offsetY;
       }
+
+      if (cfg.usingTool === 'stroke' && e.buttons > 0) {
+        // eslint-disable-next-line max-len
+        global.console.log(e.offsetX, e.offsetY);
+        lastMousex = e.offsetX;
+        lastMousey = e.offsetY;
+      }
     }
 
+    function mouseLeaveListner() {
+      coordCont.firstElementChild.innerText = 0;
+      coordCont.lastElementChild.innerText = 0;
+    }
+
+    canvas.addEventListener('mouseleave', mouseLeaveListner);
     canvas.addEventListener('mousedown', mouseDownListner);
     canvas.addEventListener('mousemove', mouseMoveListner);
     canvas.addEventListener('mouseup', mouseUpListner);
   }
-
-  /* canvasReinit(modelApp) {
-    this.flag = '';
-  } */
 }

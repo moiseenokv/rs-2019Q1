@@ -749,6 +749,16 @@ footer {
   align-items: baseline;
 }
 
+select.canvas-size {
+  border: none;
+  color: #ffd700;
+  background: none;
+  font-size: 17px;
+  font-weight: bold;
+  width: 91px;
+  cursor:pointer;
+}
+
 footer button {
   color: #000000;
   background: #FFD700;

@@ -7,13 +7,11 @@ export default class Frames {
   static setFrame(num, type, src) {
     const li = document.createElement('li');
     li.classList.add('frame');
-    li.classList.add('active');
+    if (num === 1) li.classList.add('active');
 
     const img = document.createElement('img');
     img.src = src;
-    if (type === 'empty') {
-      img.classList.add('hidden');
-    }
+    if (type === 'empty') img.classList.add('hidden');
     li.append(img);
 
     const divControls = document.createElement('div');
@@ -87,9 +85,7 @@ export default class Frames {
           imgSrcs.push(img.src);
         }
       });
-      global.console.log('Save Frames', imgSrcs);
       modelApp.saveFrames(imgSrcs);
-      // global.console.log('Save Frames', modelApp.config.frames);
     }
 
 

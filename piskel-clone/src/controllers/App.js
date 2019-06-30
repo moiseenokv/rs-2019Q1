@@ -16,6 +16,7 @@ export default class App {
     this.view.render();
     this.view.tools.toolsListner(this.model);
     this.view.canvas.mainCanvasInit(this.model);
+    this.view.tools.canvasSizeListner(this.model);
     this.view.frames.framesListner(this.model);
     this.view.tools.paletteToolListner();
     this.view.tools.paletteModalListner(this.model);

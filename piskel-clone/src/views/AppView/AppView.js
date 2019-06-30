@@ -51,13 +51,30 @@ export default class AppView {
 
     const divCanvasSize = document.createElement('div');
     divCanvasSize.classList.add('canvas-size');
-    divCanvasSize.innerHTML = 'Canvas Size: <span>32x32</span>';
     footer.append(divCanvasSize);
 
-    const divZoom = document.createElement('div');
-    divZoom.classList.add('zoom');
-    divZoom.innerHTML = 'Zoom: <span>1</span></span>';
-    footer.append(divZoom);
+    const spanSize = document.createElement('span');
+    spanSize.innerText = 'Canvas Size:';
+    divCanvasSize.append(spanSize);
+
+    const selectSize = document.createElement('select');
+    selectSize.classList.add('canvas-size');
+    divCanvasSize.append(selectSize);
+
+    const size32 = document.createElement('option');
+    size32.value = 32;
+    size32.innerText = '32x32';
+    selectSize.append(size32);
+
+    const size64 = document.createElement('option');
+    size64.value = 64;
+    size64.innerText = '64x64';
+    selectSize.append(size64);
+
+    const size128 = document.createElement('option');
+    size128.value = 128;
+    size128.innerText = '128x128';
+    selectSize.append(size128);
 
     const divCoord = document.createElement('div');
     divCoord.classList.add('coord');
@@ -67,7 +84,7 @@ export default class AppView {
 
     const butOptions = document.createElement('button');
     butOptions.classList.add('options');
-    butOptions.innerText = 'Options';
+    butOptions.innerText = 'FullScreen';
     footer.append(butOptions);
 
     return footer;
