@@ -41,7 +41,6 @@ module.exports = {
     title: 'Piskel Clone Project',
     meta: {
       viewport: 'width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0',
-      'google-signin-client_id': '156729637694-o9ab9jniock4op0231liahrdtue56mj1.apps.googleusercontent.com',
     },
   })],
 };
