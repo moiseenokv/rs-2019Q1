@@ -102,6 +102,36 @@ export default class Tools {
 
       global.console.log(modelApp.config.settings);
     });
+
+    function fullScreen() {
+      const fullscreen = document.querySelector('.options');
+      const prevCont = document.querySelector('.prev-frame');
+      fullscreen.addEventListener('click', () => {
+        if (prevCont.requestFullscreen) {
+          prevCont.requestFullscreen();
+        }
+      });
+    }
+
+    function download(filename, text) {
+      const pom = document.createElement('a');
+      pom.setAttribute('href', `data:text/plain;charset=utf-8,encodeURIComponent(text)${encodeURIComponent(text)}`);
+      pom.setAttribute('download', filename);
+      if (document.createEvent) {
+        const event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+      } else {
+        pom.click();
+      }
+    }
+
+    const getSave = document.querySelector('.save');
+    getSave.addEventListener('click', () => {
+      download('config.piclone', localStorage.getItem('session'));
+    });
+
+    fullScreen();
   }
 
   generateColorSelector(data) {
@@ -163,8 +193,9 @@ export default class Tools {
       modelApp.setProperty('fps', getFpsCont.value);
       clearInterval(anim);
       play(getFpsCont.value);
+      global.console.log('click input fps');
     }
-
+    getFpsCont.addEventListener('click', fpsListner);
     getFpsCont.addEventListener('input', fpsListner);
   }
 

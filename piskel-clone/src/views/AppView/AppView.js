@@ -81,11 +81,22 @@ export default class AppView {
     divCoord.innerHTML = 'X:<span>0</span> Y:<span>0</span>';
     footer.append(divCoord);
 
+    const butCont = document.createElement('div');
+    butCont.classList.add('but-cont');
+    footer.append(butCont);
+
 
     const butOptions = document.createElement('button');
     butOptions.classList.add('options');
+    butOptions.classList.add('full-screen');
     butOptions.innerText = 'FullScreen';
-    footer.append(butOptions);
+    butCont.append(butOptions);
+
+    const butSave = document.createElement('button');
+    butSave.classList.add('options');
+    butSave.classList.add('save');
+    butSave.innerText = 'Save';
+    butCont.append(butSave);
 
     return footer;
   }
@@ -122,8 +133,6 @@ export default class AppView {
     this.sectPreview.classList.add('preview');
     this.sectPreview.append(Tools.generatePreviewFrame());
     this.sectPreview.append(Tools.generateFpsSet(this.data));
-    const transformToolsData = this.data.config.initial.transformTools;
-    this.sectPreview.append(this.tools.generateTransformManager(transformToolsData));
     this.sectPreview.append(this.tools.generatePaletteTool(this.data));
     mainBlock.append(this.sectPreview);
 

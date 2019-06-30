@@ -188,6 +188,9 @@ export default class Frames {
           }
         }
       }
+
+      const getContOfPrevFrames = document.getElementById('fps-range');
+      getContOfPrevFrames.click();
     }
 
     function mouseDownListner(e) {

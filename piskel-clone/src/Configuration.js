@@ -8,11 +8,6 @@ export default class Configuration {
           hotKey: ['P', 'Pen tool'],
         },
         {
-          title: 'Paint bucket tool',
-          class: 'bucket',
-          hotKey: ['B', 'Paint bucket tool'],
-        },
-        {
           title: 'Erase tool',
           class: 'erase',
           hotKey: ['E', 'Erase tool'],
@@ -31,21 +26,6 @@ export default class Configuration {
           title: 'Circle tool',
           class: 'circle',
           hotKey: ['C', 'Circle tool'],
-        },
-        {
-          title: 'Move tool',
-          class: 'move',
-          hotKey: ['M', 'Move tool'],
-        },
-        {
-          title: 'Rectangle selection',
-          class: 'rect-select',
-          hotKey: ['S', 'Rectangle selection'],
-        },
-        {
-          title: 'Color Picker',
-          class: 'color-pick',
-          hotKey: ['O', 'Color picker tool'],
         },
       ],
       transformTools: [

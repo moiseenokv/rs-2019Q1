@@ -166,6 +166,8 @@ export default class Canvas {
       newframeActiveImg.src = canvas.toDataURL();
       newframeActiveImg.classList.remove('hidden');
       saveFrames();
+      const getFrameControls = document.querySelector('.controls');
+      getFrameControls.click();
     }
 
     function mouseDownListner(e) {

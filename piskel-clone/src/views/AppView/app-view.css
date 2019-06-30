@@ -471,10 +471,12 @@ li.frame.leave {
 .prev-frame {
   width: 238px;
   height: 238px;
-  background: url(./img/dotted-back.png);
+  background: url(img/dotted-back.png);
   display: flex;
   margin: 20px auto;
   overflow: hidden;
+  justify-content: center;
+  align-items: end;
 }
 
 .prev-frame img{
@@ -763,6 +765,12 @@ select.canvas-size {
   font-weight: bold;
   width: 91px;
   cursor:pointer;
+}
+
+.but-cont {
+  display: flex;
+  width: 10%;
+  justify-content: space-around;
 }
 
 footer button {
