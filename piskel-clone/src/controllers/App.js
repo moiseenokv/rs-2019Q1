@@ -16,6 +16,7 @@ export default class App {
     this.view.tools.toolsListner(this.model);
     this.view.canvas.mainCanvasInit(this.model);
     this.view.frames.framesListner(this.view.frames, this.view.canvas.ctx, this.view.canvas.canvas);
+    this.view.tools.paletteToolListner();
     this.view.tools.paletteModalListner(this.model);
   }
 }

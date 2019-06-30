@@ -97,6 +97,8 @@ export default class Tools {
           getParent.childNodes[0].style.background = getParent.childNodes[1].style.background;
           getParent.childNodes[1].style.background = tempColor;
           modelApp.setProperty('fastColors', [getParent.childNodes[0].style.background, getParent.childNodes[1].style.background]);
+          ctx.strokeStyle = getParent.childNodes[0].style.background;
+          ctxAlt.strokeStylea = getParent.childNodes[0].style.background;
         }
       }
 
@@ -187,6 +189,30 @@ export default class Tools {
     });
 
     return divPalette;
+  }
+
+  paletteToolListner() {
+    this.flag = '';
+    const setColor = document.querySelector('.palette-manager .colors');
+
+    const canvas = document.querySelector('#drawCanvas');
+    const canvasAlt = document.querySelector('#drawCanvasAlt');
+    const ctx = canvas.getContext('2d');
+    const ctxAlt = canvasAlt.getContext('2d');
+
+    function setColorListner(e) {
+      const toFastColors = document.querySelector('.fast-colors');
+      if (e.target.hasAttribute('data-color')) {
+        const colorPrepare = e.target.getAttribute('data-color');
+        const colorFirstChild = toFastColors.firstChild.style.backgroundColor;
+        toFastColors.firstChild.style.backgroundColor = colorPrepare;
+        toFastColors.lastChild.style.backgroundColor = colorFirstChild;
+        ctx.strokeStyle = colorPrepare;
+        ctxAlt.strokeStyle = colorPrepare;
+      }
+    }
+
+    setColor.addEventListener('click', setColorListner);
   }
 
   generatePaletteModal(modelApp) {
