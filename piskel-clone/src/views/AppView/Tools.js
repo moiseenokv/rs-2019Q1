@@ -121,21 +121,68 @@ export default class Tools {
     return divPrev;
   }
 
-  static generateFpsSet() {
+  previewWindowListner(modelApp) {
+    this.flag = '';
+    const getFramesCont = document.querySelector('.prev-frame');
+    const getFpsCont = document.getElementById('fps-range');
+    const curFps = document.querySelector('.fps-set span');
+
+    let anim = '';
+
+    function play(fps) {
+      const framesCount = getFramesCont.childElementCount;
+      let j = 0;
+      anim = setInterval(() => {
+        if (j === framesCount) {
+          j = 0;
+        }
+
+        if (j === 0) {
+          getFramesCont.children[framesCount - 1].style.display = 'none';
+          getFramesCont.children[j].style.display = '';
+        }
+
+        if (j >= 1) {
+          getFramesCont.children[j - 1].style.display = 'none';
+          getFramesCont.children[j].style.display = '';
+        }
+        j += 1;
+      }, 1000 / parseInt(fps, 10));
+    }
+
+    function startAnimation() {
+      setTimeout(() => {
+        window.clearInterval(anim);
+        play(getFpsCont.value);
+      }, 200);
+    }
+    startAnimation();
+
+    function fpsListner() {
+      curFps.innerText = getFpsCont.value;
+      modelApp.setProperty('fps', getFpsCont.value);
+      clearInterval(anim);
+      play(getFpsCont.value);
+    }
+
+    getFpsCont.addEventListener('input', fpsListner);
+  }
+
+  static generateFpsSet(modelApp) {
     const divFpsCont = document.createElement('div');
     divFpsCont.classList.add('fps-set');
 
     const label = document.createElement('label');
     label.htmlFor = 'fps-range';
-    label.innerHTML = '<span>0</span> FPS';
+    label.innerHTML = `<span>${modelApp.config.settings.fps}</span> FPS`;
     divFpsCont.append(label);
 
     const input = document.createElement('input');
     input.id = 'fps-range';
     input.type = 'range';
-    input.min = 0;
+    input.min = 1;
     input.max = 24;
-    input.setAttribute('value', 2);
+    input.setAttribute('value', modelApp.config.settings.fps);
     divFpsCont.append(input);
 
     return divFpsCont;

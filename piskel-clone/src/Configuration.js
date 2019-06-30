@@ -82,7 +82,7 @@ export default class Configuration {
       width: 600,
       height: 600,
       canvasSize: 32,
-      fps: '',
+      fps: 2,
       palettePresets: [
         '#dd0000',
         '#fe6230',

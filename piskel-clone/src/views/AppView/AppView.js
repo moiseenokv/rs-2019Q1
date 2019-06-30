@@ -121,7 +121,7 @@ export default class AppView {
 
     this.sectPreview.classList.add('preview');
     this.sectPreview.append(Tools.generatePreviewFrame());
-    this.sectPreview.append(Tools.generateFpsSet());
+    this.sectPreview.append(Tools.generateFpsSet(this.data));
     const transformToolsData = this.data.config.initial.transformTools;
     this.sectPreview.append(this.tools.generateTransformManager(transformToolsData));
     this.sectPreview.append(this.tools.generatePaletteTool(this.data));

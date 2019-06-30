@@ -474,6 +474,12 @@ li.frame.leave {
   background: url(./img/dotted-back.png);
   display: flex;
   margin: 20px auto;
+  overflow: hidden;
+}
+
+.prev-frame img{
+  width:238px;
+  height:238px;
 }
 .fps-set label {
   color:#aaa;

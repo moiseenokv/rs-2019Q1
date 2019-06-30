@@ -55,7 +55,6 @@ export default class Frames {
     } else {
       this.ulFrames.append(Frames.setFrame(1));
     }
-
     return this.ulFrames;
   }
 
@@ -78,16 +77,27 @@ export default class Frames {
     }
 
     function saveFrames() {
+      const getPrevFrame = document.querySelector('.prev-frame');
+      getPrevFrame.innerHTML = '';
       const getImages = framesContainer.getElementsByTagName('img');
       const imgSrcs = [];
-      Object.values(getImages).forEach((img) => {
+      Object.values(getImages).forEach((img, index) => {
         if (!img.classList.contains('hidden')) {
           imgSrcs.push(img.src);
+          const imgToPrev = document.createElement('img');
+          if (index === 0) {
+            imgToPrev.style.display = '';
+          } else {
+            imgToPrev.style.display = 'none';
+          }
+          imgToPrev.src = img.src;
+          getPrevFrame.append(imgToPrev);
         }
       });
       modelApp.saveFrames(imgSrcs);
     }
 
+    saveFrames();
 
     function createNewFrame(num) {
       const li = document.createElement('li');
@@ -172,12 +182,7 @@ export default class Frames {
           if (listFrames.childElementCount > 1) {
             const getNumEl = elem.parentNode.querySelector('.num').innerText;
             elem.parentNode.parentNode.remove();
-            if (getNumEl === '1') {
-              listFrames.children[0].classList.add('active');
-            } else {
-              listFrames.children[parseInt(getNumEl, 10) - 2].classList.add('active');
-            }
-
+            listFrames.children[parseInt(getNumEl, 10) - 2].classList.add('active');
             reIndex(listFrames);
             saveFrames();
           }
