@@ -36,7 +36,10 @@ export default class AppModel {
       // eslint-disable-next-line no-unused-vars
       const getData = JSON.parse(localStorage.getItem('session'));
       const [settings, frames, user] = getData;
-      this.config.settings = settings;
+      cfg.penSize = settings.penSize;
+      cfg.fps = settings.fps;
+      cfg.canvasSize = settings.canvasSize;
+      cfg.palettePresets = settings.palettePresets;
       this.config.frames = frames;
       this.config.user = user;
     }
