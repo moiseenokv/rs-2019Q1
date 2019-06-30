@@ -391,7 +391,7 @@ export default class Tools {
           toCfg.push(color.getAttribute('data-color'));
         }
       });
-      modelApp.setPropertyUser('palettePresets:', toCfg);
+      modelApp.setProperty('palettePresets', toCfg);
       global.console.log(modelApp.config);
     }
 
@@ -410,8 +410,7 @@ export default class Tools {
             toCfg.push(color.getAttribute('data-color'));
           }
         });
-        modelApp.setPropertyUser('palettePresets:', toCfg);
-        global.console.log(modelApp.config);
+        modelApp.setProperty('palettePresets', toCfg);
       }
     }
 

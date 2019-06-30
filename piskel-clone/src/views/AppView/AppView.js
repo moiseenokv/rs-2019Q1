@@ -88,7 +88,7 @@ export default class AppView {
     mainBlock.append(this.sectTools);
 
     this.sectFrames.classList.add('frames');
-    this.sectFrames.append(this.frames.initFrame());
+    this.sectFrames.append(this.frames.initFrame(this.data));
     this.sectFrames.append(Frames.addButton());
     mainBlock.append(this.sectFrames);
 

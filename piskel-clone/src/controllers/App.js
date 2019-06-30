@@ -10,12 +10,13 @@ export default class App {
   }
 
   init() {
+    this.model.getSessionData();
     this.view.data = this.model;
     this.view.init();
     this.view.render();
     this.view.tools.toolsListner(this.model);
     this.view.canvas.mainCanvasInit(this.model);
-    this.view.frames.framesListner(this.view.frames, this.view.canvas.ctx, this.view.canvas.canvas);
+    this.view.frames.framesListner(this.model);
     this.view.tools.paletteToolListner();
     this.view.tools.paletteModalListner(this.model);
   }

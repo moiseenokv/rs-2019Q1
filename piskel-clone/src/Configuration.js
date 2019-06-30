@@ -8,19 +8,9 @@ export default class Configuration {
           hotKey: ['P', 'Pen tool'],
         },
         {
-          title: 'Vertical mirror pen',
-          class: 'mirror-pen',
-          hotKey: ['V', 'Vertical mirror pen'],
-        },
-        {
           title: 'Paint bucket tool',
           class: 'bucket',
           hotKey: ['B', 'Paint bucket tool'],
-        },
-        {
-          title: 'Paint all pixels of the same color',
-          class: 'paintall',
-          hotKey: ['A', 'Paint all pixels of the same color'],
         },
         {
           title: 'Erase tool',
@@ -48,19 +38,9 @@ export default class Configuration {
           hotKey: ['M', 'Move tool'],
         },
         {
-          title: 'Shape selection',
-          class: 'select',
-          hotKey: ['Z', 'Shape selection'],
-        },
-        {
           title: 'Rectangle selection',
           class: 'rect-select',
           hotKey: ['S', 'Rectangle selection'],
-        },
-        {
-          title: 'Lasso selection',
-          class: 'lasso-select',
-          hotKey: ['H', 'Lasso selection'],
         },
         {
           title: 'Color Picker',
@@ -102,6 +82,7 @@ export default class Configuration {
       width: 600,
       height: 600,
       canvasSize: 32,
+      fps: '',
       palettePresets: [
         '#dd0000',
         '#fe6230',
@@ -120,7 +101,6 @@ export default class Configuration {
     this.user = {
       authSession: '',
       gDriveKey: '',
-      palettePresets: [],
     };
   }
 }

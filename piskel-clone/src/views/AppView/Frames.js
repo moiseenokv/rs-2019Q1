@@ -4,14 +4,16 @@ export default class Frames {
     this.flag = '';
   }
 
-  static setFrame(num) {
+  static setFrame(num, type, src) {
     const li = document.createElement('li');
     li.classList.add('frame');
     li.classList.add('active');
 
     const img = document.createElement('img');
-    img.src = '';
-    img.classList.add('hidden');
+    img.src = src;
+    if (type === 'empty') {
+      img.classList.add('hidden');
+    }
     li.append(img);
 
     const divControls = document.createElement('div');
@@ -46,12 +48,20 @@ export default class Frames {
   }
 
 
-  initFrame() {
-    this.ulFrames.append(Frames.setFrame(1));
+  initFrame(modelApp) {
+    const cfg = modelApp.config;
+    if (cfg.frames.length > 0) {
+      cfg.frames.forEach((frame, index) => {
+        this.ulFrames.append(Frames.setFrame(index + 1, 'ex', frame));
+      });
+    } else {
+      this.ulFrames.append(Frames.setFrame(1));
+    }
+
     return this.ulFrames;
   }
 
-  framesListner() {
+  framesListner(modelApp) {
     this.flag = '';
     const framesContainer = document.querySelector('.frames');
     const canvas = document.querySelector('#drawCanvas');
@@ -68,6 +78,20 @@ export default class Frames {
         el.querySelector('.num').innerText = (index + 1);
       });
     }
+
+    function saveFrames() {
+      const getImages = framesContainer.getElementsByTagName('img');
+      const imgSrcs = [];
+      Object.values(getImages).forEach((img) => {
+        if (!img.classList.contains('hidden')) {
+          imgSrcs.push(img.src);
+        }
+      });
+      global.console.log('Save Frames', imgSrcs);
+      modelApp.saveFrames(imgSrcs);
+      // global.console.log('Save Frames', modelApp.config.frames);
+    }
+
 
     function createNewFrame(num) {
       const li = document.createElement('li');
@@ -124,6 +148,7 @@ export default class Frames {
         const getFrameImg = newFrame.querySelector('img');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(getFrameImg, 0, 0, canvas.width, canvas.height);
+        saveFrames();
       }
 
       if (elem.parentNode.classList.contains('controls')) {
@@ -131,8 +156,6 @@ export default class Frames {
           const getActive = framesContainer.querySelector('.frame.active');
           if (getActive) getActive.classList.remove('active');
           elem.parentNode.parentNode.classList.add('active');
-          // eslint-disable-next-line no-console
-          console.log('move action');
         }
 
         if (elem.classList.contains('copy')) {
@@ -145,6 +168,7 @@ export default class Frames {
           getCopyFrameNumber.innerText = frIndex + 1;
           listFrames.insertBefore(newCopiedFrame, listFrames.childNodes[frIndex]);
           reIndex(listFrames);
+          saveFrames();
         }
 
         if (elem.classList.contains('del')) {
@@ -159,6 +183,7 @@ export default class Frames {
             }
 
             reIndex(listFrames);
+            saveFrames();
           }
         }
       }
@@ -209,6 +234,7 @@ export default class Frames {
         reIndex(getLeaveLi.parentNode);
       }
       isDown = false;
+      saveFrames();
     }
     framesContainer.addEventListener('mousedown', mouseDownListner);
     framesContainer.addEventListener('mousemove', mouseMoveListner);
