@@ -97,8 +97,29 @@ main > section {
   overflow: hidden;
 }
 
-#drawCanvas {
+.draw img {
+  display: none;
+}
+
+.draw-container {
+  width: 600px;
+  height: 600px;
+  position: relative;
   background: url(./img/dotted-back.png);
+}
+
+#drawCanvas {
+  position: absolute;
+  z-index:90;
+}
+
+#altDrawCanvas {
+  position: absolute;
+  z-index:90;
+}
+
+#drawCanvas.drawPrimary, #altDrawCanvas.drawPrimary  {
+  z-index: 100;
 }
 
 .preview {

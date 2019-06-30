@@ -78,13 +78,13 @@ export default class AppView {
     const mainBlock = document.createElement('main');
 
     this.sectTools.classList.add('tools');
-    this.sectTools.append(this.tools.generatePensSizes(this.data.penSizes));
+    this.sectTools.append(this.tools.generatePensSizes(this.data.config.settings.penSize));
     this.sectTools.append(this.tools.generateTools({
-      data: this.data.tools,
+      data: this.data.config.initial.commonTools,
       cont: this.tools.ulToolsCont,
       className: 'instruments',
     }));
-    this.sectTools.append(this.tools.generateColorSelector(this.data.colorSelect));
+    this.sectTools.append(this.tools.generateColorSelector(this.data.config.settings.fastColors));
     mainBlock.append(this.sectTools);
 
     this.sectFrames.classList.add('frames');
@@ -94,13 +94,20 @@ export default class AppView {
 
     this.sectDraw.classList.add('draw');
     mainBlock.append(this.sectDraw);
-    this.sectDraw.append(this.canvas.mainCanvas());
+    const drawCont = document.createElement('div');
+    drawCont.classList.add('draw-container');
+    this.sectDraw.append(drawCont);
+    drawCont.append(this.canvas.mainCanvas(this.data));
+    drawCont.append(this.canvas.altCanvas(this.data));
+    const imgHidden = document.createElement('img');
+    this.sectDraw.append(imgHidden);
 
     this.sectPreview.classList.add('preview');
     this.sectPreview.append(Tools.generatePreviewFrame());
     this.sectPreview.append(Tools.generateFpsSet());
-    this.sectPreview.append(this.tools.generateTransformManager(this.data.transformTools));
-    this.sectPreview.append(Tools.generatePaletteTool());
+    const transformToolsData = this.data.config.initial.transformTools;
+    this.sectPreview.append(this.tools.generateTransformManager(transformToolsData));
+    this.sectPreview.append(this.tools.generatePaletteTool(this.data));
     mainBlock.append(this.sectPreview);
 
     return mainBlock;
@@ -112,7 +119,7 @@ export default class AppView {
     this.output.append(AppView.headerInit());
     this.output.append(this.mainInit());
     this.output.append(AppView.footerInit());
-    this.output.append(Tools.generatePaletteModal());
+    this.output.append(this.tools.generatePaletteModal(this.data));
     this.where = document.body;
   }
 

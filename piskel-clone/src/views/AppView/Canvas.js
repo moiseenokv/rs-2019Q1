@@ -3,29 +3,58 @@ export default class Canvas {
     this.data = '';
     this.flag = '';
     this.canvas = '';
+    this.ctx = '';
+    this.canvasAlt = '';
+    this.ctx = '';
   }
 
-  mainCanvas() {
-    this.canvas = document.createElement('canvas');
-    this.canvas.id = 'drawCanvas';
-    this.canvas.width = 600;
-    this.canvas.height = 600;
-    return this.canvas;
+  mainCanvas(modelApp) {
+    this.flag = '';
+    const cfg = modelApp.config.settings;
+    const canvas = document.createElement('canvas');
+    canvas.id = cfg.canvasId;
+    canvas.width = cfg.width;
+    canvas.height = cfg.height;
+    return canvas;
   }
+
+  altCanvas(modelApp) {
+    this.flag = '';
+    const cfg = modelApp.config.settings;
+    const canvasAlt = document.createElement('canvas');
+    canvasAlt.id = cfg.canvasIdAlt;
+    canvasAlt.width = cfg.width;
+    canvasAlt.height = cfg.height;
+    return canvasAlt;
+  }
+
 
   mainCanvasInit(modelApp) {
     this.flag = '';
-    const canvas = document.getElementById(modelApp.id);
+    const cfg = modelApp.config.settings;
+    const canvas = document.getElementById(cfg.canvasId);
     const ctx = canvas.getContext('2d');
-    ctx.strokeStyle = modelApp.ctx.color;
+    ctx.strokeStyle = cfg.color;
     ctx.lineCap = 'square';
-    ctx.lineWidth = modelApp.ctx.width;
-    ctx.lineHeight = modelApp.ctx.height;
+    ctx.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+    ctx.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
+
+    const canvasAlt = document.getElementById(cfg.canvasIdAlt);
+    const ctxAlt = canvasAlt.getContext('2d');
+    ctxAlt.strokeStyle = cfg.color;
+    ctxAlt.lineCap = 'square';
+    ctxAlt.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+    ctxAlt.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
 
     const coordCont = document.querySelector('.coord');
 
+    let lastMousex = '';
+    let lastMousey = '';
+
     function getMousePos(canv, evt) {
       const rect = canv.getBoundingClientRect();
+      coordCont.firstElementChild.innerText = parseInt((evt.clientX - rect.left), 10);
+      coordCont.lastElementChild.innerText = parseInt((evt.clientY - rect.top), 10);
       return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top,
@@ -38,25 +67,92 @@ export default class Canvas {
       const dx = e.movementX;
       const dy = e.movementY;
 
-      if (e.buttons > 0) {
+      getMousePos(canvas, e);
+
+
+      if (cfg.usingTool === 'pen' && e.buttons > 0) {
+        global.console.log('pen');
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x - dx, y - dy);
         ctx.stroke();
         ctx.closePath();
       }
-      const mousePos = getMousePos(canvas, e);
-      coordCont.firstElementChild.innerText = parseInt(mousePos.x, 10);
-      coordCont.lastElementChild.innerText = parseInt(mousePos.y, 10);
+
+      if (cfg.usingTool === 'erase' && e.buttons > 0) {
+        global.console.log('erase');
+        ctx.strokeStyle = 'rgb(255, 255, 255)';
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(255,0,0,0)';
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - dx, y - dy);
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      if (cfg.usingTool === 'rect' && e.buttons > 0) {
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+        ctxAlt.beginPath();
+        ctxAlt.rect(lastMousex, lastMousey, x - lastMousex, y - lastMousey);
+        ctxAlt.stroke();
+        ctxAlt.closePath();
+      }
+
+      if (cfg.usingTool === 'circle' && e.buttons > 0) {
+        const mouseX = parseInt(e.clientX - x, 10);
+        const mouseY = parseInt(e.clientY - y, 10);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+        ctxAlt.save();
+        ctxAlt.beginPath();
+        const scaleX = 1 * ((mouseX - lastMousex) / 2);
+        const scaleY = 1 * ((mouseY - lastMousey) / 2);
+        ctxAlt.scale(scaleX, scaleY);
+        const centerX = (lastMousex / scaleX) + 1;
+        const centerY = (lastMousey / scaleY) + 1;
+        ctxAlt.arc(centerX, centerY, 1, 0, 2 * Math.PI);
+        ctxAlt.restore();
+        ctxAlt.stroke();
+        ctxAlt.closePath();
+      }
     }
 
-    function mouseUpListner() {
+    function mouseUpListner(e) {
       const frameActiveImg = document.querySelector('.frame.active > img');
+      const tempImg = document.querySelector('.draw > img');
+
+      if (cfg.usingTool === 'rect' && e.buttons === 0) {
+        tempImg.src = canvasAlt.toDataURL();
+        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      if (cfg.usingTool === 'circle' && e.buttons === 0) {
+        tempImg.src = canvasAlt.toDataURL();
+        ctx.drawImage(canvasAlt, 0, 0, canvas.width, canvas.height);
+        ctxAlt.clearRect(0, 0, canvas.width, canvas.height);
+      }
       frameActiveImg.src = canvas.toDataURL();
       frameActiveImg.classList.remove('hidden');
     }
 
+    function mouseDownListner(e) {
+      if (cfg.usingTool === 'rect' && e.buttons > 0) {
+        lastMousex = e.offsetX;
+        lastMousey = e.offsetY;
+      }
+
+      if (cfg.usingTool === 'circle' && e.buttons > 0) {
+        lastMousex = e.offsetX;
+        lastMousey = e.offsetY;
+      }
+    }
+
+    canvas.addEventListener('mousedown', mouseDownListner);
     canvas.addEventListener('mousemove', mouseMoveListner);
     canvas.addEventListener('mouseup', mouseUpListner);
   }
+
+  /* canvasReinit(modelApp) {
+    this.flag = '';
+  } */
 }

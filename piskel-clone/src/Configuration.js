@@ -1,7 +1,7 @@
 export default class Configuration {
   constructor() {
-    this.object = {
-      tools: [
+    this.initial = {
+      commonTools: [
         {
           title: 'Pen',
           class: 'pen',
@@ -68,16 +68,6 @@ export default class Configuration {
           hotKey: ['O', 'Color picker tool'],
         },
       ],
-      penSizes: {
-        parentClass: 'pen-size',
-        elements: [
-          'size-1x',
-          'size-2x',
-          'size-3x',
-          'size-4x',
-        ],
-      },
-      colorSelect: ['#c71919', '#f4ebeb'],
       transformTools: [
         {
           title: 'FLip',
@@ -102,20 +92,35 @@ export default class Configuration {
       ],
     };
 
-    this.current = {
-      tool: '1',
-      penSize: '',
-      fastColors: [],
-      frames: [],
-      drawCanvas: {
-        id: 'drawCanvas',
-        ctx: {
-          color: this.object.colorSelect[0],
-          penWidth: 18.75,
-          height: 18.75,
-          canvasSize: 32,
-        },
-      },
+    this.settings = {
+      usingTool: '',
+      penSize: 1,
+      fastColors: ['#c71919', '#f4ebeb'],
+      canvasId: 'drawCanvas',
+      canvasIdAlt: 'drawCanvasAlt',
+      color: '#c71919',
+      width: 600,
+      height: 600,
+      canvasSize: 32,
+      palettePresets: [
+        '#dd0000',
+        '#fe6230',
+        '#fef600',
+        '#00bb00',
+        '#009bfe',
+        '#000083',
+        '#30009b',
+        '#ffffff',
+        '#000000',
+      ],
+    };
+
+    this.frames = [];
+
+    this.user = {
+      authSession: '',
+      gDriveKey: '',
+      palettePresets: [],
     };
   }
 }

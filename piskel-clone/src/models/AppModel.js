@@ -2,10 +2,18 @@ import Configuration from '../Configuration';
 
 export default class AppModel {
   constructor() {
-    this.data = new Configuration();
+    this.config = new Configuration();
   }
 
-  setProperty(key, val) {
-    this.data.current[key] = val;
+  setProperty(keyExp, val) {
+    this.config.settings[keyExp] = val;
+  }
+
+  setPropertyUser(keyExp, val) {
+    this.config.user[keyExp] = val;
+  }
+
+  setPropertyFrame(keyExp, val) {
+    this.config.frames[keyExp] = val;
   }
 }

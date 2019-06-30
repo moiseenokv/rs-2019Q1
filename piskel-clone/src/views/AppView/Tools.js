@@ -9,17 +9,14 @@ export default class Tools {
   }
 
   generatePensSizes(data) {
-    this.divPenSizes.classList.add(data.parentClass);
-    const elem = data.elements;
-    elem.forEach((cls, index) => {
+    const getSize = data;
+    this.divPenSizes.classList.add('pen-size');
+    for (let i = 1; i <= 4; i += 1) {
       const sizeSpan = document.createElement('span');
-      sizeSpan.classList.add(cls);
-      if (index === elem.length - 1) {
-        sizeSpan.classList.add('active');
-      }
+      sizeSpan.classList.add(`size-${i}x`);
       this.divPenSizes.append(sizeSpan);
-    });
-
+    }
+    this.divPenSizes.children[getSize - 1].classList.add('active');
     return this.divPenSizes;
   }
 
@@ -54,19 +51,21 @@ export default class Tools {
   toolsListner(modelApp) {
     this.flag = '';
     const getToolCont = document.querySelector('.tools');
+    const canvas = document.querySelector('#drawCanvas');
+    const canvasAlt = document.querySelector('#drawCanvasAlt');
+    const ctx = canvas.getContext('2d');
+    const ctxAlt = canvasAlt.getContext('2d');
+
+
     getToolCont.addEventListener('click', (event) => {
-      global.console.log(modelApp.data.current);
       // global.console.log(event.target);
 
       // working with tools
       if (event.target.classList.contains('tool')) {
-        modelApp.setProperty('tool', event.target.classList[1]);
+        modelApp.setProperty('usingTool', event.target.classList[1]);
         const getActive = getToolCont.querySelector('.tool.active');
         if (getActive) getActive.classList.remove('active');
         event.target.classList.add('active');
-
-        // const mainCanvas = document.querySelector('#drawCanvas');
-        // const ctx = mainCanvas.getContext('2d');
 
         if (event.target.classList.contains('color-pick')) {
           global.console.log('color-picker clicked');
@@ -76,11 +75,18 @@ export default class Tools {
       // working with pen-size block
 
       if (event.target.parentNode.classList.contains('pen-size')) {
+        const cfg = modelApp.config.settings;
         const penSize = event.target;
         modelApp.setProperty('penSize', penSize.classList[0].slice(5, -1));
         const getActive = getToolCont.querySelector('.pen-size > .active');
         if (getActive) getActive.classList.remove('active');
         penSize.classList.add('active');
+
+        ctx.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+        ctx.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
+
+        ctxAlt.lineWidth = cfg.width / cfg.canvasSize * cfg.penSize;
+        ctxAlt.lineHeight = cfg.width / cfg.canvasSize * cfg.penSize;
       }
 
       // working with fast-colors block
@@ -93,6 +99,8 @@ export default class Tools {
           modelApp.setProperty('fastColors', [getParent.childNodes[0].style.background, getParent.childNodes[1].style.background]);
         }
       }
+
+      global.console.log(modelApp.config.settings);
     });
   }
 
@@ -150,7 +158,10 @@ export default class Tools {
     return transManager;
   }
 
-  static generatePaletteTool() {
+  generatePaletteTool(modelApp) {
+    this.flag = '';
+    const cfg = modelApp.config.settings;
+
     const divPalette = document.createElement('div');
     divPalette.classList.add('palette-manager');
 
@@ -168,10 +179,20 @@ export default class Tools {
     ulColors.classList.add('colors');
     divPalette.append(ulColors);
 
+    cfg.palettePresets.forEach((color) => {
+      const liPreset = document.createElement('li');
+      liPreset.style.backgroundColor = color;
+      liPreset.setAttribute('data-color', color);
+      ulColors.append(liPreset);
+    });
+
     return divPalette;
   }
 
-  static generatePaletteModal() {
+  generatePaletteModal(modelApp) {
+    this.flag = '';
+    const cfg = modelApp.config.settings;
+
     const modalDiv = document.createElement('div');
     modalDiv.classList.add('modal');
 
@@ -185,7 +206,7 @@ export default class Tools {
     modalContentDiv.append(closeButtonModal);
 
     const titleModal = document.createElement('h3');
-    titleModal.innerText = 'Palette';
+    titleModal.innerText = 'Palette Colors Add';
     modalContentDiv.append(titleModal);
 
     const paletteContDiv = document.createElement('div');
@@ -209,6 +230,17 @@ export default class Tools {
     liColorAddTemplate.classList.add('add');
     liColorAddTemplate.innerHTML = '+';
     ulPaletteTemplates.append(liColorAddTemplate);
+
+    cfg.palettePresets.forEach((color) => {
+      const liPreset = document.createElement('li');
+      liPreset.classList.add('template');
+      liPreset.style.backgroundColor = color;
+      liPreset.setAttribute('data-color', color);
+      const closeButton = document.createElement('span');
+      closeButton.innerText = 'x';
+      liPreset.append(closeButton);
+      ulPaletteTemplates.insertBefore(liPreset, liColorAddTemplate);
+    });
 
     const divPickerCont = document.createElement('div');
     divPickerCont.classList.add('picker');
@@ -241,7 +273,7 @@ export default class Tools {
     return modalDiv;
   }
 
-  paletteModalListner() {
+  paletteModalListner(modelApp) {
     this.flag = '';
     const mC = document.querySelector('.modal-content');
     const hexCont = document.querySelector('.hex');
@@ -311,9 +343,10 @@ export default class Tools {
     }
 
     function addColorListner(e) {
+      const getColorTemplate = mC.querySelector('.template');
+      const getColors = document.querySelector('.palette-templates');
+      const toCfg = [];
       if (hexCont.querySelector('span').innerText !== '') {
-        const getColorTemplate = mC.querySelector('.template');
-
         const cloneColorTemplate = getColorTemplate.cloneNode(true);
         cloneColorTemplate.style.display = '';
         cloneColorTemplate.style.backgroundColor = hexCont.querySelector('span').innerText;
@@ -326,16 +359,33 @@ export default class Tools {
         liPMContainer.setAttribute('data-color', hexCont.querySelector('span').innerText);
         paletteManagerContainer.append(liPMContainer);
       }
+
+      Object.values(getColors.children).forEach((color, index) => {
+        if (index > 0 && index !== getColors.children.length - 1) {
+          toCfg.push(color.getAttribute('data-color'));
+        }
+      });
+      modelApp.setPropertyUser('palettePresets:', toCfg);
+      global.console.log(modelApp.config);
     }
 
     function delColorListner(e) {
+      const getColors = document.querySelector('.palette-templates');
+      const toCfg = [];
+
       if (e.target.parentNode.hasAttribute('data-color')) {
         const dataAttrColor = e.target.parentNode.getAttribute('data-color');
         const getElPMforDel = paletteManagerContainer.querySelector(`li[data-color="${dataAttrColor}"]`);
         getElPMforDel.remove();
         e.target.parentNode.remove();
 
-        global.console.log('clicked on del');
+        Object.values(getColors.children).forEach((color, index) => {
+          if (index > 0 && index !== getColors.children.length - 1) {
+            toCfg.push(color.getAttribute('data-color'));
+          }
+        });
+        modelApp.setPropertyUser('palettePresets:', toCfg);
+        global.console.log(modelApp.config);
       }
     }
 
