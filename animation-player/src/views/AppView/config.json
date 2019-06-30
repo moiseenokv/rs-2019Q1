@@ -1,0 +1,33 @@
+{
+    "tools":{
+        "paintBucket":{
+            "name": "Paint Bucket",
+            "class":"paint"
+        },
+        "chooseColor":{
+            "name": "Choose Color",
+            "class":"choose-color"
+        },
+        "move":{
+            "name": "Move",
+            "class":"move"
+        },
+        "transform":{
+            "name": "Transform",
+            "class":"transform"
+        }
+    },
+    "colors":{
+        "red":"dd0000",
+        "orange":"fe6230",
+        "yellow":"fef600",
+        "green":"00bb00",
+        "indigo":"009bfe",
+        "blue":"000083",
+        "violet":"30009b",
+        "white":"ffffff",
+        "black":"000000",
+        "curr":"789212",
+        "prev":"cfcfcf"
+    }
+}
