@@ -85,7 +85,6 @@ export default class Canvas {
 
 
       if (cfg.usingTool === 'pen' && e.buttons > 0) {
-        global.console.log('pen');
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x - dx, y - dy);
@@ -94,7 +93,6 @@ export default class Canvas {
       }
 
       if (cfg.usingTool === 'erase' && e.buttons > 0) {
-        global.console.log('erase');
         ctx.save();
         ctx.strokeStyle = 'rgb(255, 255, 255)';
         ctx.globalCompositeOperation = 'destination-out';
@@ -166,8 +164,8 @@ export default class Canvas {
       newframeActiveImg.src = canvas.toDataURL();
       newframeActiveImg.classList.remove('hidden');
       saveFrames();
-      const getFrameControls = document.querySelector('.controls');
-      getFrameControls.click();
+      const getActive = document.querySelector('.tool.active');
+      getActive.click();
     }
 
     function mouseDownListner(e) {

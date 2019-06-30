@@ -57,8 +57,6 @@ export default class Tools {
 
 
     getToolCont.addEventListener('click', (event) => {
-      // global.console.log(event.target);
-
       // working with tools
       if (event.target.classList.contains('tool')) {
         modelApp.setProperty('usingTool', event.target.classList[1]);
@@ -99,8 +97,6 @@ export default class Tools {
           ctxAlt.strokeStyle = getParent.childNodes[0].style.background;
         }
       }
-
-      global.console.log(modelApp.config.settings);
     });
 
     function fullScreen() {
@@ -193,7 +189,6 @@ export default class Tools {
       modelApp.setProperty('fps', getFpsCont.value);
       clearInterval(anim);
       play(getFpsCont.value);
-      global.console.log('click input fps');
     }
     getFpsCont.addEventListener('click', fpsListner);
     getFpsCont.addEventListener('input', fpsListner);
@@ -468,7 +463,6 @@ export default class Tools {
         }
       });
       modelApp.setProperty('palettePresets', toCfg);
-      global.console.log(modelApp.config);
     }
 
     function delColorListner(e) {
@@ -502,7 +496,6 @@ export default class Tools {
     this.flag = '';
     const getCanvasSizes = document.querySelector('select.canvas-size');
     const sizeValue = modelApp.config.settings.canvasSize;
-    global.console.log(sizeValue);
     const setValueOption = getCanvasSizes.querySelector(`option[value="${sizeValue}"]`);
     setValueOption.selected = 'selected';
 
